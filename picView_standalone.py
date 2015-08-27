@@ -1,13 +1,9 @@
 #!/usr/bin/env python
-__author__ = 'chris'
 
 import os
-from time import sleep
-import glob
-import sys
 import pygame
 from pygame.locals import *
-
+from modules import filenav
 
 #define some colors
 #color    R    G    B
@@ -135,12 +131,12 @@ touch_buttons = {
 def prev_picture():
     print 'prev picture called'
 
-    display_image(core_data, current_image)
+    display_image(s.previous)
 
 def next_picture():
     print 'next picture called'
 
-    display_image(core_data, current_image)
+    display_image(s.next)
 
 def cycle_function():
     print 'cycle function called'
@@ -157,6 +153,7 @@ def display_image(directory, filename):
 # This function takes the name of an image to load.
 # It also optionally takes an argument it can use to set a colorkey for the image.
 # A colorkey is used in graphics to represent a color of the image that is transparent.
+# we also use this this function to initialize filenav.py -- see modules
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     try:
@@ -285,8 +282,9 @@ def run_me(done, toggle_controls):
                 pos = pygame.mouse.get_pos()
 
 
-
 if __name__ == "__main__":
+    s = filenav.FileNav(image_dir)
+
     done = False
     toggle_controls = True
 
