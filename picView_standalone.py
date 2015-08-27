@@ -3,7 +3,6 @@
 import os
 import pygame
 from pygame.locals import *
-from modules import filenav
 
 #define some colors
 #color    R    G    B
@@ -131,12 +130,8 @@ touch_buttons = {
 def prev_picture():
     print 'prev picture called'
 
-    display_image(s.previous)
-
 def next_picture():
     print 'next picture called'
-
-    display_image(s.next)
 
 def cycle_function():
     print 'cycle function called'
@@ -233,7 +228,7 @@ def get_display():
     os.environ["SDL_MOUSEDRV"] = "TSLIB"
 
 
-def run_me(done, toggle_controls):
+def run(done, toggle_controls):
     display_image(core_data, current_image)
 
     show_controls()
@@ -283,8 +278,6 @@ def run_me(done, toggle_controls):
 
 
 if __name__ == "__main__":
-    s = filenav.FileNav(image_dir)
-
     done = False
     toggle_controls = True
 
@@ -302,7 +295,7 @@ if __name__ == "__main__":
     #background = background.convert()
     #background.fill((black))
 
-    run_me(done, toggle_controls)
+    run(done, toggle_controls)
 
     # Be IDLE friendly
     pygame.quit()
