@@ -280,7 +280,7 @@ def main(argv):
     os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
     os.environ["SDL_MOUSEDRV"] = "TSLIB"
     """
-    
+
     syslog.syslog('picbrick initialized')
 
     display_image(screen, core_data, initial_image)
