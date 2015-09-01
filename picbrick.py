@@ -12,6 +12,7 @@ import syslog
 import os
 import pygame
 from pygame.locals import *
+import argparse
 
 from modules.theCamera import camera
 from modules.theDisplay import display
@@ -54,6 +55,27 @@ an invalid filename.
 
 
 def main(argv):
+    parser = argparse.ArgumentParser(description='Take and display pictures and videos.')
+    parser.add_argument('--automode', dest='autoMode',
+                   help='shall the system run in automatic mode)')
+    parser.add_argument('--picturewidth', dest='pictureWidth', type=int, default=320,
+                   help='# of pixels for the width of the picture)')
+    parser.add_argument('--pictureheight', dest='pictureHeight', type=int, default=240,
+                   help='# of pixels for the height of the picture)')
+    parser.add_argument('--videowidth', dest='videoWidth', type=int, default=640,
+                   help='# of pixels for the width of the video)')
+    parser.add_argument('--videoheight', dest='videoHeight', type=int, default=480,
+                   help='# of pixels for the height of the video)')
+    parser.add_argument('--videoduration', dest='videoDuration', type=int, default=10,
+                   help='# of seconds to record a video - can be over ruled by keeping the video button pressed)')
+    parser.add_argument('--imagedir', dest='imageDirectory', type=string, default="/usr/local/var/picbrick/images",
+                   help='default directory path for the images)')
+    parser.add_argument('--videodir', dest='videoDirectory', type=string, default="/usr/local/var/picbrick/videos",
+                   help='default directory path for the videos)')
+
+
+    args = parser.parse_args()
+
     myTFT = display()
     myScreen = myTFT.get_display()
     myCamera = camera()
