@@ -4,6 +4,7 @@ __author__ = 'chris'
 import urllib
 import urllib2
 import syslog
+import os
 
 
 class sms:
@@ -11,10 +12,10 @@ class sms:
     #
     #Replace the xxxxxxx with the number you wish to text.
     to = "+4915112240942"
-    #Replace the xxxxxx with the hash given to you by smspi.co.uk
-    hash = "bfd626d66e9ca13b1f21843725f2eef2"
-
     def __init__(self, message):
+        hash = os.environ["smsHash"]
+
+        print hash
         values = {
               'to' : self.to,
               'message' : message,
