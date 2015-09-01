@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 __author__ = 'chris'
-
-import RPi.GPIO as GPIO
-import picamera
+try:
+    import RPi.GPIO as GPIO
+    import picamera
+except:
+    print "could not load any of GPIO or picamera\n" \
+          "this is possible because you run this script on a system other than a Raspberry PI.\n" \
+          "In this case you can ignore this error, if you just do debugging, or should go and get\n" \
+          "one of those fine mini computers and start inventing, in case you really want to use the script"
 import datetime
 import time
 import urllib
@@ -15,39 +20,6 @@ import pygame
 from pygame.locals import *
 
 # define some global vars
-
-#
-# screen/display definition
-#
-#screen size
-screenWidth = 320
-screenHeight = 240
-size = (screenWidth, screenHeight)
-# picture and video size
-pictureWidth = 320
-pictureHeight = 240
-videoWidth = 640
-videoHeight = 480
-
-
-#
-# color definitions
-#
-#define some colors
-#color    R    G    B
-white = (255, 255, 255)
-red   = (255,   0,   0)
-green = (  0, 255,   0)
-blue  = (  0,   0, 255)
-black = (  0,   0,   0)
-cyan  = (  0, 255, 255)
-
-btnCycle_col = white
-btnPrev_col = white
-btnNext_col = white
-
-
-
 #
 # sms-service
 #
@@ -64,64 +36,148 @@ gpic = 21     # GPIO pin connected to the take a picture button
 gvid = 20     # GPIO pin connected to the take a video button
 gpir = 16     # GPIO pin connected to the PIR
 
-
-#
-# Picture and video
-#
-# define what to do on each event type picture_button, video_button or PIR
-picTakePicture = True
-picTakeVideo = False
-picSendSms = False
-
-vidTakePicture = False
-vidTakeVideo = True
-vidSendSms = False
-
-pirTakePicture = True
-pirTakeVideo = True
-pirSendSms = False
-
-waitTimeAfterPicture = 2
-waitTimeAfterVideo = 0
-waitTimeAfterEvent = 5
-
-videoDuration = 10
-
-# if set to true - button or command line argument -
-# the camera will take pictures and videos, if the
-# motion detector detects movement
-autoMode = False
-
-#
-# directory structure
-#
-# directory structure
-core_data = '/usr/local/var/picture_brick/data'
-initial_image = 'HAL900_320x240.png'
-imageDir = "/usr/local/var/picture_brick/images"
-videoDir = "/usr/local/var/picture_brick/videos"
-
-
 ##### NO NEED TO CHANGE ANYTHING BELOW HERE #####
+input_state_pic = True
+input_state_vid = True
+input_state_pir = True
 
-# these three are set accoridng to event (picture- or video button or PIR)
-takeVideo = False
-takePicture = False
-sendSms = False
-eventSource = "NULL"
+class tftDisplay:
+    #
+    # screen/display definition
+    #
+    #screen size
+    screenWidth = 320
+    screenHeight = 240
+    screenSize = (screenWidth, screenHeight)
+    # picture and video size
+    pictureWidth = 320
+    pictureHeight = 240
+    videoWidth = 640
+    videoHeight = 480
 
-#
-# image functions
-#
-def display_image(screen, directory, filename):
-    fullname = os.path.join(directory, filename)
-    try:
-        # load from subfolder 'data'
-        image = pygame.image.load(fullname)
-    except:
-        #raise UserWarning, "Unable to find the images in the folder 'data' :-( "
-        syslog.syslog("Unable to find the images in the folder 'data' :-( ")
-    screen.blit(image,(0,0))
+
+    #
+    # color definitions
+    #
+    #define some colors
+    #color    R    G    B
+    white = (255, 255, 255)
+    red   = (255,   0,   0)
+    green = (  0, 255,   0)
+    blue  = (  0,   0, 255)
+    black = (  0,   0,   0)
+    cyan  = (  0, 255, 255)
+
+    backgroundColor = black
+
+    btnCycle_col = white
+    btnPrev_col = white
+    btnNext_col = white
+
+    def __init__(self, width=320, height=240):
+        self.screenWidth = width
+        self.screenHeight = height
+        self.screenSize = (width, height)
+
+    def get_display(self):
+        pygame.init()
+        screen = pygame.display.set_mode(self.screenSize)
+
+        disp_no = os.getenv('DISPLAY')
+        if disp_no:
+            syslog.syslog("I'm running under X display = {0}".format(disp_no))
+            pygame.mouse.set_visible(True)
+        else:
+            drivers = ['directfb', 'fbcon', 'svgalib']
+            found = False
+            for driver in drivers:
+                if not os.getenv('SDL_VIDEODRIVER'):
+                    os.putenv('SDL_VIDEODRIVER', driver)
+                try:
+                    pygame.display.init()
+                except pygame.error:
+                    syslog.syslog('Driver: {0} failed.'.format(driver))
+                    continue
+                found = True
+                syslog.syslog("I'm running on the framebuffer using driver " + str(driver))
+                pygame.mouse.set_visible(False)
+                break
+
+            if not found:
+                raise Exception('No suitable video driver found!')
+
+
+        os.environ["SDL_FBDEV"] = "/dev/fb1"
+        os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
+        os.environ["SDL_MOUSEDRV"] = "TSLIB"
+
+        screen.fill(self.backgroundColor)
+        pygame.display.update()
+        return screen
+
+    # some fundamental getter and setter
+    def getBackgroundColor(self):
+        return self.backgroundColor
+    def setBackgroundColor(self, color):
+        self.backgroundColor = color
+
+    def getScreenSize(self):
+        return self.screenSize
+    def setScreenSize(self, width, height):
+        self.screenWidth = width
+        self.screenHeight = height
+        self.screenSize(width, height)
+
+    #
+    # image functions
+    #
+    def display_image(self, screen, filename):
+        try:
+            # load from subfolder 'data'
+            image = pygame.image.load(filename)
+        except:
+            syslog.syslog("Unable to find the image "+filename+" :-( ")
+
+        screen.blit(image,(0,0))
+
+class theCamera:
+    camera = object
+    pictureWidth = 320
+    pictureHeight = 240
+    videoWidth = 640
+    videoHeight = 240
+    videoDuration = 10
+
+    def __init__(self):
+        try:
+            camera = picamera.PiCamera()
+        #except picamera.exc.PiCameraError, e:
+        except:
+            syslog.syslog("Could not initialize the camera, something's wrong with it")
+            #syslog.syslog("Could not initialize the camera, something's wrong with it: " + str(e))
+            #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
+
+    def getCamera(self):
+        return self.camera
+
+    def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
+        try:
+            self.camera.resolution = (picWidth, picHeight)
+            self.camera.capture(pic)
+        except picamera.exc.PiCameraError, e:
+            syslog.syslog("Could not take picture, something's wrong with the camera: " + str(e))
+            #raise Exception("Camera Error. This is serious")
+
+    def takeVideo(self, vid, vidWidth=videoWidth, vidHeight=videoHeight, vidDur=videoDuration):
+        try:
+            self.camera.resolution = (vidWidth, vidHeight)
+            self.camera.start_recording(vid)
+            self.camera.wait_recording(vidDur)
+            self.camera.stop_recording()
+        except picamera.exc.PiCameraError, e:
+            syslog.syslog("Could not record video, something's wrong with the camera: " + str(e))
+            #raise Exception("Camera Error. This is serious")
+
 
 
 # This function takes the name of an image to load.
@@ -142,56 +198,6 @@ def load_image(directory, filename, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
-
-
-def get_display():
-    disp_no = os.getenv('DISPLAY')
-    if disp_no:
-        syslog.syslog("I'm running under X display = {0}".format(disp_no))
-        pygame.mouse.set_visible(True)
-    else:
-        drivers = ['directfb', 'fbcon', 'svgalib']
-        found = False
-        for driver in drivers:
-            if not os.getenv('SDL_VIDEODRIVER'):
-                os.putenv('SDL_VIDEODRIVER', driver)
-            try:
-                pygame.display.init()
-            except pygame.error:
-                syslog.syslog('Driver: {0} failed.'.format(driver))
-                continue
-            found = True
-            syslog.syslog("I'm running on the framebuffer using driver " + str(driver))
-            pygame.mouse.set_visible(False)
-            break
-
-        if not found:
-            raise Exception('No suitable video driver found!')
-
-
-    os.environ["SDL_FBDEV"] = "/dev/fb1"
-    os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
-    os.environ["SDL_MOUSEDRV"] = "TSLIB"
-
-
-def takePic(camera, pic, picWidth, picHeight):
-    try:
-        camera.resolution = (picWidth, picHeight)
-        camera.capture(pic)
-    except picamera.exc.PiCameraError, e:
-        syslog.syslog("Could not take picture, something's wrong with the camera: " + str(e))
-        #raise Exception("Camera Error. This is serious")
-
-def takeVid(camera, vid, vidWidth, vidHeight):
-    try:
-        camera.resolution = (vidWidth, vidHeight)
-        camera.start_recording(vid)
-        camera.wait_recording(videoDuration)
-        camera.stop_recording()
-    except picamera.exc.PiCameraError, e:
-        syslog.syslog("Could not record video, something's wrong with the camera: " + str(e))
-        #raise Exception("Camera Error. This is serious")
-
 def format_filename(s):
     """Take a string and return a valid filename constructed from the string.
 Uses a whitelist approach: any characters not present in valid_chars are
@@ -208,8 +214,6 @@ an invalid filename.
     filename = filename.replace(' ','_') # I don't like spaces in filenames.
     return filename
 
-
-### sms sending
 def sms(to,message,hash):
     values = {
           'to' : to,
@@ -233,57 +237,47 @@ def sms(to,message,hash):
 
 
 def main(argv):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(gpir, GPIO.IN)
+    pictureWidth = 320
+    pictureHeight = 240
+    videoWidth = 640
+    videoHeight = 240
+    videoDuration = 10
+    #
+    waitTimeAfterPicture = 0
+    waitTimeAfterVideo = 0
+    waitTimeAfterEvent = 0
+    #
+    # if set to true - button or command line argument -
+    # the camera will take pictures and videos, if the
+    # motion detector detects movement
+    autoMode = False
+    #
+    # directory structure
+    #
+    # directory structure
+    core_data = 'data'
+    initial_image = 'HAL900_320x240.png'
+    imageDir = "images"
+    videoDir = "videos"
+
     try:
-        camera = picamera.PiCamera()
-    except picamera.exc.PiCameraError, e:
-        syslog.syslog("Could not initialize the camera, something's wrong with it: " + str(e))
-        #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(gpir, GPIO.IN)
+    except:
+        syslog.syslog("could not set the GPIOs. \n")
 
-    get_display()
+    # set and initialize the screen
+    myTFT = tftDisplay()
+    myScreen = myTFT.get_display()
+    myCamera = theCamera()
 
-    pygame.init()
-    screen = pygame.display.set_mode(size)
-    screen.fill((black))
-    pygame.display.update()
     clock = pygame.time.Clock()
-
-    """
-    disp_no = os.getenv('DISPLAY')
-    if disp_no:
-        syslog.syslog("I'm running under X display = {0}".format(disp_no))
-        pygame.mouse.set_visible(True)
-    else:
-        drivers = ['directfb', 'fbcon', 'svgalib']
-        found = False
-        for driver in drivers:
-            if not os.getenv('SDL_VIDEODRIVER'):
-                os.putenv('SDL_VIDEODRIVER', driver)
-            try:
-                pygame.display.init()
-            except pygame.error:
-                syslog.syslog('Driver: {0} failed.'.format(driver))
-                continue
-            found = True
-            syslog.syslog("I'm running on the framebuffer using driver " + str(driver))
-            pygame.mouse.set_visible(False)
-            break
-
-        if not found:
-            raise Exception('No suitable video driver found!')
-
-
-    os.environ["SDL_FBDEV"] = "/dev/fb1"
-    os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
-    os.environ["SDL_MOUSEDRV"] = "TSLIB"
-    """
-
     syslog.syslog('picbrick initialized')
 
-    display_image(screen, core_data, initial_image)
+    fullname = os.path.join(core_data, initial_image)
+    myTFT.display_image(myScreen, fullname)
     syslog.syslog('Ready to take pictures, videos or wait for the bad guys')
 
     while True:
@@ -291,80 +285,85 @@ def main(argv):
         # Leave this out and we will use all CPU we can.
         clock.tick(10)
 
-        input_state_pic = GPIO.input(gpic)
-        input_state_vid = GPIO.input(gvid)
-        input_state_pir = GPIO.input(gpir)
+        try:
+            input_state_pic = GPIO.input(gpic)
+            input_state_vid = GPIO.input(gvid)
+            input_state_pir = GPIO.input(gpir)
+        except:
+            syslog.syslog("could not watch GPIO-ports, we should bail out here")
+            #raise Exception("could not watch GPIO-ports, we should bail out here")
 
-        if input_state_pic == False or input_state_vid == False or (input_state_pir == True and autoMode == True):
-            if input_state_pic == False:
-                takePicture = picTakePicture
-                takeVideo = picTakeVideo
-                sendSms = picSendSms
-                waitTimeAfterPicture = 0
-                waitTimeAfterVideo = 0
-                waitTimeAfterEvent = 0
-                eventSource = "picture_button"
-            elif input_state_vid == False:
-                takePicture = vidTakePicture
-                takeVideo = vidTakeVideo
-                sendSms = vidSendSms
-                waitTimeAfterPicture = 0
-                waitTimeAfterVideo = 0
-                waitTimeAfterEvent = 0
-                eventSource = "video_button"
-            elif input_state_pir == True:
-                takePicture = pirTakePicture
-                takeVideo = pirTakeVideo
-                sendSms = pirSendSms
-                waitTimeAfterPicture = 2
-                waitTimeAfterVideo = 0
-                waitTimeAfterEvent = 5
-                eventSource = "PIR motion detector"
-            else:
-                takePicture = False
-                takeVideo = False
-                sendSms = False
-                waitTimeAfterPicture = 0
-                waitTimeAfterVideo = 0
-                waitTimeAfterEvent = 5
-                eventSource = "unknown"
-
-            a = datetime.datetime.now()
-            a = str(a)
-            a = a[0:19]
-            b = format_filename(a)
-
-            txtmessage = ("captured event (" + eventSource + ") at "+str(a))
-            syslog.syslog(txtmessage)
-            pic = (imageDir)+("/img_")+(b)+(".jpg")
-            vid = (videoDir)+("/vid_")+(b)+(".h264")
-
-            message = (txtmessage),(pic),(vid)
-
-            if takePicture:
-                takePic(camera, pic, pictureWidth, pictureHeight)
-                syslog.syslog("picture taken, waiting " + str(waitTimeAfterPicture) + " seconds...")
-                display_image(screen, imageDir, ("img_")+(b)+(".jpg"))
-                time.sleep(waitTimeAfterPicture)
-                time.sleep(3)
-                display_image(screen, core_data, initial_image)
-
-            if takeVideo:
-                takeVid(camera, vid, videoWidth, videoHeight)
-                syslog.syslog(str(videoDuration) + " seconds of video taken, waiting " + str(waitTimeAfterVideo) + " seconds...")
-                time.sleep(waitTimeAfterVideo)
-
-            if sendSms:
-                sms(to,message,hash)
+        try:
+            if input_state_pic == False or input_state_vid == False or (input_state_pir == True and autoMode == True):
+                if input_state_pic == False:
+                    takePicture = True
+                    takeVideo = False
+                    sendSms = False
+                    eventSource = "picture_button"
+                elif input_state_vid == False:
+                    takePicture = False
+                    takeVideo = True
+                    sendSms = False
+                    eventSource = "video_button"
+                elif input_state_pir == True:
+                    takePicture = True
+                    takeVideo = True
+                    sendSms = True
+                    eventSource = "PIR motion detector"
+                else:
+                    takePicture = False
+                    takeVideo = False
+                    sendSms = False
+                    eventSource = "unknown"
 
 
+                a = datetime.datetime.now()
+                a = str(a)
+                a = a[0:19]
+                b = format_filename(a)
+                pic = (imageDir)+("/img_")+(b)+(".jpg")
+                vid = (videoDir)+("/vid_")+(b)+(".h264")
 
-            syslog.syslog("event processed, waiting " + str(waitTimeAfterEvent) + " seconds...")
-            time.sleep(waitTimeAfterEvent)
+                txtmessage = ("captured event (" + eventSource + ") at "+str(a))
+                syslog.syslog(txtmessage)
 
-            syslog.syslog("all done, waiting for next event...")
+                if takePicture:
+                    #myCamera.takePicture(pic, pictureWidth, pictureHeight)
+                    myCamera.takePicture(pic)
+                    syslog.syslog("picture taken, waiting " + str(waitTimeAfterPicture) + " seconds...")
 
-    GPIO.cleanup()
+                    fullname = os.path.join(imageDir, pic)
+                    myTFT.display_image(myScreen, fullname)
+
+                    time.sleep(waitTimeAfterPicture)
+                    time.sleep(3)
+
+                    fullname = os.path.join(core_data, initial_image)
+                    myTFT.display_image(myScreen, fullname)
+
+                if takeVideo:
+                    #myCamera.takeVideo(vid, videoWidth, videoHeight, videoDuration)
+                    myCamera.takeVideo(vid)
+                    syslog.syslog(str(videoDuration) + " seconds of video taken, waiting " + str(waitTimeAfterVideo) + " seconds...")
+                    time.sleep(waitTimeAfterVideo)
+
+                if sendSms:
+                    message = (txtmessage),(pic),(vid)
+                    sms(to,message,hash)
+
+
+
+                syslog.syslog("event processed, waiting " + str(waitTimeAfterEvent) + " seconds...")
+                time.sleep(waitTimeAfterEvent)
+
+                syslog.syslog("all done, waiting for next event...")
+        except:
+            syslog.syslog("could not process input event")
+
+    try:
+        GPIO.cleanup()
+    except:
+        syslog.syslog("could not clean GPIO")
 
 if __name__ == '__main__':
     main(sys.argv)
