@@ -2,8 +2,6 @@
 __author__ = 'chris'
 
 import syslog
-from modules.config import configuration as CONFIG
-
 try:
     import picamera
 except:
@@ -14,13 +12,13 @@ except:
 
 class camera():
     camera = object
-    """
+
     pictureWidth = 320
     pictureHeight = 240
     videoWidth = 640
     videoHeight = 240
     videoDuration = 10
-    """
+
     def __init__(self):
         try:
             camera = picamera.PiCamera()
@@ -33,7 +31,7 @@ class camera():
     def getCamera(self):
         return self.camera
 
-    def takePicture(self, pic, picWidth=CONFIG.pictureWidth, picHeight=CONFIG.pictureHeight):
+    def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
         try:
             self.camera.resolution = (picWidth, picHeight)
             self.camera.capture(pic)
@@ -41,7 +39,7 @@ class camera():
             syslog.syslog("Could not take picture, something's wrong with the camera: " + str(e))
             #raise Exception("Camera Error. This is serious")
 
-    def takeVideo(self, vid, vidWidth=CONFIG.videoWidth, vidHeight=CONFIG.videoHeight, vidDur=CONFIG.videoDuration):
+    def takeVideo(self, vid, vidWidth=videoWidth, vidHeight=videoHeight, vidDur=videoDuration):
         try:
             self.camera.resolution = (vidWidth, vidHeight)
             self.camera.start_recording(vid)

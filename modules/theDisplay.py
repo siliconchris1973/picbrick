@@ -7,19 +7,13 @@ import os
 import config as CONFIG
 
 class display:
-    """#
+    #
     # screen/display definition
     #
     #screen size
     screenWidth = 320
     screenHeight = 240
     screenSize = (screenWidth, screenHeight)
-    # picture and video size
-    pictureWidth = 320
-    pictureHeight = 240
-    videoWidth = 640
-    videoHeight = 480
-
 
     #
     # color definitions
@@ -38,13 +32,13 @@ class display:
     btnCycle_col = white
     btnPrev_col = white
     btnNext_col = white
-    """
 
-    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
+
+    def __init__(self, width=screenWidth, height=screenHeight):
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize = (width, height)
-        self.backgroundColor = CONFIG.backgroundColor
+        self.backgroundColor = backgroundColor
 
     def get_display(self):
         pygame.init()
@@ -100,7 +94,6 @@ class display:
     #
     def display_image(self, screen, filename):
         try:
-            # load from subfolder 'data'
             image = pygame.image.load(filename)
         except:
             syslog.syslog("Unable to find the image "+filename+" :-( ")

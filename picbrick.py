@@ -68,11 +68,10 @@ def main(argv):
                    help='# of pixels for the height of the video)')
     parser.add_argument('--videoduration', dest='videoDuration', type=int, default=10,
                    help='# of seconds to record a video - can be over ruled by keeping the video button pressed)')
-    parser.add_argument('--imagedir', dest='imageDirectory', type=string, default="/usr/local/var/picbrick/images",
+    parser.add_argument('--imagedir', dest='imageDirectory', default="/usr/local/var/picbrick/images",
                    help='default directory path for the images)')
-    parser.add_argument('--videodir', dest='videoDirectory', type=string, default="/usr/local/var/picbrick/videos",
+    parser.add_argument('--videodir', dest='videoDirectory', default="/usr/local/var/picbrick/videos",
                    help='default directory path for the videos)')
-
 
     args = parser.parse_args()
 
