@@ -4,9 +4,10 @@ __author__ = 'chris'
 import syslog
 import pygame
 import os
+import config as CONFIG
 
 class display:
-    #
+    """#
     # screen/display definition
     #
     #screen size
@@ -37,11 +38,13 @@ class display:
     btnCycle_col = white
     btnPrev_col = white
     btnNext_col = white
+    """
 
-    def __init__(self, width=320, height=240):
+    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize = (width, height)
+        self.backgroundColor = CONFIG.backgroundColor
 
     def get_display(self):
         pygame.init()
