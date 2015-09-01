@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6073649-acf6-4047-81b7-9914a37ec30c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/smsService.py" afterPath="$PROJECT_DIR$/modules/smsService.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/config.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/picbrick.py" afterPath="$PROJECT_DIR$/picbrick.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyPIR.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,38 +25,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="picbrick.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="picbrick.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/picbrick.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.56363636">
+              <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
               <folding>
-                <element signature="e#1141#1603#0" expanded="false" />
-                <element signature="e#1633#2305#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="smsService.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/modules/smsService.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.27272728">
-              <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-              <folding>
-                <element signature="e#44#57#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="theDisplay.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/theDisplay.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="31" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="31" />
-              <folding>
-                <element signature="e#44#57#0" expanded="true" />
+                <element signature="e#217#232#0" expanded="true" />
+                <element signature="e#842#1304#0" expanded="false" />
+                <element signature="e#1334#2006#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -93,8 +72,9 @@
         <option value="$PROJECT_DIR$/modules/camera.py" />
         <option value="$PROJECT_DIR$/modules/tftDisplay.py" />
         <option value="$PROJECT_DIR$/modules/theDisplay.py" />
-        <option value="$PROJECT_DIR$/picbrick.py" />
         <option value="$PROJECT_DIR$/modules/smsService.py" />
+        <option value="$PROJECT_DIR$/picbrick.py" />
+        <option value="$PROJECT_DIR$/modules/config.py" />
       </list>
     </option>
   </component>
@@ -619,20 +599,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/picbrick.py">
+    <entry file="file://$PROJECT_DIR$/modules/smsService.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.27272728">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
           <folding>
-            <element signature="e#1141#1603#0" expanded="false" />
-            <element signature="e#1633#2305#0" expanded="false" />
+            <element signature="e#44#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/theDisplay.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.6727273">
           <caret line="73" column="31" selection-start-line="73" selection-start-column="8" selection-end-line="73" selection-end-column="31" />
           <folding>
             <element signature="e#44#57#0" expanded="true" />
@@ -640,12 +619,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/smsService.py">
+    <entry file="file://$PROJECT_DIR$/modules/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.27272728">
-          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.6545454">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/picbrick.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.56363636">
+          <caret line="57" column="4" selection-start-line="57" selection-start-column="4" selection-end-line="57" selection-end-column="4" />
           <folding>
-            <element signature="e#44#57#0" expanded="true" />
+            <element signature="e#217#232#0" expanded="true" />
+            <element signature="e#842#1304#0" expanded="false" />
+            <element signature="e#1334#2006#0" expanded="false" />
           </folding>
         </state>
       </provider>

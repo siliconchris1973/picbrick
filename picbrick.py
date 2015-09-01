@@ -17,22 +17,7 @@ from pygame.locals import *
 from modules.theCamera import camera
 from modules.theDisplay import display
 from modules.smsService import sms
-
-# define some global vars
-#
-
-#
-# GPIO ports
-#
-gpic = 21     # GPIO pin connected to the take a picture button
-gvid = 20     # GPIO pin connected to the take a video button
-gpir = 16     # GPIO pin connected to the PIR
-
-##### NO NEED TO CHANGE ANYTHING BELOW HERE #####
-input_state_pic = True
-input_state_vid = True
-input_state_pir = True
-
+from modules.config import configuration
 
 # This function takes the name of an image to load.
 # It also optionally takes an argument it can use to set a colorkey for the image.
@@ -70,46 +55,24 @@ an invalid filename.
 
 
 def main(argv):
-    pictureWidth = 320
-    pictureHeight = 240
-    videoWidth = 640
-    videoHeight = 240
-    videoDuration = 10
-    #
-    waitTimeAfterPicture = 0
-    waitTimeAfterVideo = 0
-    waitTimeAfterEvent = 0
-    #
-    # if set to true - button or command line argument -
-    # the camera will take pictures and videos, if the
-    # motion detector detects movement
-    autoMode = False
-    #
-    # directory structure
-    #
-    # directory structure
-    core_data = 'data'
-    initial_image = 'HAL900_320x240.png'
-    imageDir = "images"
-    videoDir = "videos"
-
-    try:
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(gpir, GPIO.IN)
-    except:
-        syslog.syslog("could not set the GPIOs. \n")
-
-    # set and initialize the screen
     myTFT = display()
     myScreen = myTFT.get_display()
     myCamera = camera()
-
+    myConf = configuration()
+    autoMode = myConf.autoMode
     clock = pygame.time.Clock()
+
+    try:
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(myConf.gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(myConf.gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(myConf.gpir, GPIO.IN)
+    except:
+        syslog.syslog("could not set the GPIOs. \n")
+
     syslog.syslog('picbrick initialized')
 
-    fullname = os.path.join(core_data, initial_image)
+    fullname = os.path.join(myConf.core_data, myConf.initial_image)
     myTFT.display_image(myScreen, fullname)
     syslog.syslog('Ready to take pictures, videos or wait for the bad guys')
 
@@ -119,9 +82,9 @@ def main(argv):
         clock.tick(10)
 
         try:
-            input_state_pic = GPIO.input(gpic)
-            input_state_vid = GPIO.input(gvid)
-            input_state_pir = GPIO.input(gpir)
+            input_state_pic = GPIO.input(myConf.gpic)
+            input_state_vid = GPIO.input(myConf.gvid)
+            input_state_pir = GPIO.input(myConf.gpir)
         except:
             syslog.syslog("could not watch GPIO-ports, we should bail out here")
             #raise Exception("could not watch GPIO-ports, we should bail out here")
@@ -154,8 +117,8 @@ def main(argv):
                 a = str(a)
                 a = a[0:19]
                 b = format_filename(a)
-                pic = (imageDir)+("/img_")+(b)+(".jpg")
-                vid = (videoDir)+("/vid_")+(b)+(".h264")
+                pic = (myConf.imageDir)+("/img_")+(b)+(".jpg")
+                vid = (myConf.videoDir)+("/vid_")+(b)+(".h264")
 
                 txtmessage = ("captured event (" + eventSource + ") at "+str(a))
                 syslog.syslog(txtmessage)
@@ -163,22 +126,22 @@ def main(argv):
                 if takePicture:
                     #myCamera.takePicture(pic, pictureWidth, pictureHeight)
                     myCamera.takePicture(pic)
-                    syslog.syslog("picture taken, waiting " + str(waitTimeAfterPicture) + " seconds...")
+                    syslog.syslog("picture taken, waiting " + str(myConf.waitTimeAfterPicture) + " seconds...")
 
-                    fullname = os.path.join(imageDir, pic)
+                    fullname = os.path.join(myConf.imageDir, pic)
                     myTFT.display_image(myScreen, fullname)
 
-                    time.sleep(waitTimeAfterPicture)
+                    time.sleep(myConf.waitTimeAfterPicture)
                     time.sleep(3)
 
-                    fullname = os.path.join(core_data, initial_image)
+                    fullname = os.path.join(myConf.core_data, myConf.initial_image)
                     myTFT.display_image(myScreen, fullname)
 
                 if takeVideo:
                     #myCamera.takeVideo(vid, videoWidth, videoHeight, videoDuration)
                     myCamera.takeVideo(vid)
-                    syslog.syslog(str(videoDuration) + " seconds of video taken, waiting " + str(waitTimeAfterVideo) + " seconds...")
-                    time.sleep(waitTimeAfterVideo)
+                    syslog.syslog(str(myConf.videoDuration) + " seconds of video taken, waiting " + str(myConf.waitTimeAfterVideo) + " seconds...")
+                    time.sleep(myConf.waitTimeAfterVideo)
 
                 if sendSms:
                     message = (txtmessage),(pic),(vid)
@@ -186,8 +149,8 @@ def main(argv):
 
 
 
-                syslog.syslog("event processed, waiting " + str(waitTimeAfterEvent) + " seconds...")
-                time.sleep(waitTimeAfterEvent)
+                syslog.syslog("event processed, waiting " + str(myConf.waitTimeAfterEvent) + " seconds...")
+                time.sleep(myConf.waitTimeAfterEvent)
 
                 syslog.syslog("all done, waiting for next event...")
         except:
