@@ -2,16 +2,11 @@
 __author__ = 'chris'
 try:
     import RPi.GPIO as GPIO
-    import picamera
 except:
-    print "could not load any of GPIO or picamera\n" \
-          "this is possible because you run this script on a system other than a Raspberry PI.\n" \
-          "In this case you can ignore this error, if you just do debugging, or should go and get\n" \
-          "one of those fine mini computers and start inventing, in case you really want to use the script"
+    print "could not load GPIO \n" \
+          "this is possible because you run this script on a system other than a Raspberry PI."
 import datetime
 import time
-import urllib
-import urllib2
 import sys
 import string
 import syslog
@@ -19,15 +14,12 @@ import os
 import pygame
 from pygame.locals import *
 
+from modules.theCamera import camera
+from modules.theDisplay import display
+from modules.smsService import sms
+
 # define some global vars
 #
-# sms-service
-#
-#Replace the xxxxxxx with the number you wish to text.
-to = "+4915112240942"
-#Replace the xxxxxx with the hash given to you by smspi.co.uk
-hash = "bfd626d66e9ca13b1f21843725f2eef2"
-
 
 #
 # GPIO ports
@@ -40,144 +32,6 @@ gpir = 16     # GPIO pin connected to the PIR
 input_state_pic = True
 input_state_vid = True
 input_state_pir = True
-
-class tftDisplay:
-    #
-    # screen/display definition
-    #
-    #screen size
-    screenWidth = 320
-    screenHeight = 240
-    screenSize = (screenWidth, screenHeight)
-    # picture and video size
-    pictureWidth = 320
-    pictureHeight = 240
-    videoWidth = 640
-    videoHeight = 480
-
-
-    #
-    # color definitions
-    #
-    #define some colors
-    #color    R    G    B
-    white = (255, 255, 255)
-    red   = (255,   0,   0)
-    green = (  0, 255,   0)
-    blue  = (  0,   0, 255)
-    black = (  0,   0,   0)
-    cyan  = (  0, 255, 255)
-
-    backgroundColor = black
-
-    btnCycle_col = white
-    btnPrev_col = white
-    btnNext_col = white
-
-    def __init__(self, width=320, height=240):
-        self.screenWidth = width
-        self.screenHeight = height
-        self.screenSize = (width, height)
-
-    def get_display(self):
-        pygame.init()
-        screen = pygame.display.set_mode(self.screenSize)
-
-        disp_no = os.getenv('DISPLAY')
-        if disp_no:
-            syslog.syslog("I'm running under X display = {0}".format(disp_no))
-            pygame.mouse.set_visible(True)
-        else:
-            drivers = ['directfb', 'fbcon', 'svgalib']
-            found = False
-            for driver in drivers:
-                if not os.getenv('SDL_VIDEODRIVER'):
-                    os.putenv('SDL_VIDEODRIVER', driver)
-                try:
-                    pygame.display.init()
-                except pygame.error:
-                    syslog.syslog('Driver: {0} failed.'.format(driver))
-                    continue
-                found = True
-                syslog.syslog("I'm running on the framebuffer using driver " + str(driver))
-                pygame.mouse.set_visible(False)
-                break
-
-            if not found:
-                raise Exception('No suitable video driver found!')
-
-
-        os.environ["SDL_FBDEV"] = "/dev/fb1"
-        os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
-        os.environ["SDL_MOUSEDRV"] = "TSLIB"
-
-        screen.fill(self.backgroundColor)
-        pygame.display.update()
-        return screen
-
-    # some fundamental getter and setter
-    def getBackgroundColor(self):
-        return self.backgroundColor
-    def setBackgroundColor(self, color):
-        self.backgroundColor = color
-
-    def getScreenSize(self):
-        return self.screenSize
-    def setScreenSize(self, width, height):
-        self.screenWidth = width
-        self.screenHeight = height
-        self.screenSize(width, height)
-
-    #
-    # image functions
-    #
-    def display_image(self, screen, filename):
-        try:
-            # load from subfolder 'data'
-            image = pygame.image.load(filename)
-        except:
-            syslog.syslog("Unable to find the image "+filename+" :-( ")
-
-        screen.blit(image,(0,0))
-
-class theCamera:
-    camera = object
-    pictureWidth = 320
-    pictureHeight = 240
-    videoWidth = 640
-    videoHeight = 240
-    videoDuration = 10
-
-    def __init__(self):
-        try:
-            camera = picamera.PiCamera()
-        #except picamera.exc.PiCameraError, e:
-        except:
-            syslog.syslog("Could not initialize the camera, something's wrong with it")
-            #syslog.syslog("Could not initialize the camera, something's wrong with it: " + str(e))
-            #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
-
-    def getCamera(self):
-        return self.camera
-
-    def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
-        try:
-            self.camera.resolution = (picWidth, picHeight)
-            self.camera.capture(pic)
-        except picamera.exc.PiCameraError, e:
-            syslog.syslog("Could not take picture, something's wrong with the camera: " + str(e))
-            #raise Exception("Camera Error. This is serious")
-
-    def takeVideo(self, vid, vidWidth=videoWidth, vidHeight=videoHeight, vidDur=videoDuration):
-        try:
-            self.camera.resolution = (vidWidth, vidHeight)
-            self.camera.start_recording(vid)
-            self.camera.wait_recording(vidDur)
-            self.camera.stop_recording()
-        except picamera.exc.PiCameraError, e:
-            syslog.syslog("Could not record video, something's wrong with the camera: " + str(e))
-            #raise Exception("Camera Error. This is serious")
-
 
 
 # This function takes the name of an image to load.
@@ -214,27 +68,6 @@ an invalid filename.
     filename = filename.replace(' ','_') # I don't like spaces in filenames.
     return filename
 
-def sms(to,message,hash):
-    values = {
-          'to' : to,
-          'message' : message,
-          'hash' : hash } # Grab your hash from http://www.smspi.co.uk
-
-    url = 'http://www.smspi.co.uk/send/'
-
-    postdata = urllib.urlencode(values)
-    req = urllib2.Request(url, postdata)
-
-    syslog.syslog('Attempt to send SMS ...')
-
-    try:
-        response = urllib2.urlopen(req)
-        response_url = response.geturl()
-        if response_url==url:
-            syslog.syslog(response.read())
-    except urllib2.URLError, e:
-        syslog.syslog(syslog.LOG_ERR, 'Send failed!' + e.reason)
-
 
 def main(argv):
     pictureWidth = 320
@@ -269,9 +102,9 @@ def main(argv):
         syslog.syslog("could not set the GPIOs. \n")
 
     # set and initialize the screen
-    myTFT = tftDisplay()
+    myTFT = display()
     myScreen = myTFT.get_display()
-    myCamera = theCamera()
+    myCamera = camera()
 
     clock = pygame.time.Clock()
     syslog.syslog('picbrick initialized')
@@ -349,7 +182,7 @@ def main(argv):
 
                 if sendSms:
                     message = (txtmessage),(pic),(vid)
-                    sms(to,message,hash)
+                    sms(message)
 
 
 

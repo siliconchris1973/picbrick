@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-
-from modules import display
-from modules import pictureviewer
 import sys
+
+from broken import display
+from modules import pictureviewer
 
 
 def main(argv):
