@@ -27,6 +27,7 @@ class display:
     black = (  0,   0,   0)
     cyan  = (  0, 255, 255)
 
+
     backgroundColor = black
 
     btnCycle_col = white
