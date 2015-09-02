@@ -17,7 +17,7 @@ import argparse
 from modules.theCamera import camera
 from modules.theDisplay import display
 from modules.smsService import sms
-from modules.config import configuration as CONFIG
+from modules import config_simple as CONFIG
 
 # This function takes the name of an image to load.
 # It also optionally takes an argument it can use to set a colorkey for the image.
