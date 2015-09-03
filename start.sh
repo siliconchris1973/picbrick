@@ -6,7 +6,7 @@ if [ -f "$ENV_FILE" ]
 then
     source $ENV_FILE
     echo "environment setup, starting picbrick.py"
-    env $smsHash ./picbrick.py
+    env smsHash=$smsHash ./picbrick.py
 else
     echo "ATTENTION! The environment file $ENV_FILE is not present."
     echo "This file is used to setup the environment of picbrick. "
