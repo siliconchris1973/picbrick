@@ -4,42 +4,18 @@ __author__ = 'chris'
 import syslog
 import pygame
 import os
-import config as CONFIG
+import config_simple as CONFIG
 
 class display:
-    #
-    # screen/display definition
-    #
-    #screen size
-    screenWidth = 320
-    screenHeight = 240
+    screenWidth = CONFIG.screenWidth
+    screenHeight = CONFIG.screenHeight
     screenSize = (screenWidth, screenHeight)
+    backgroundColor = CONFIG.backgroundColor
 
-    #
-    # color definitions
-    #
-    #define some colors
-    #color    R    G    B
-    white = (255, 255, 255)
-    red   = (255,   0,   0)
-    green = (  0, 255,   0)
-    blue  = (  0,   0, 255)
-    black = (  0,   0,   0)
-    cyan  = (  0, 255, 255)
-
-
-    backgroundColor = black
-
-    btnCycle_col = white
-    btnPrev_col = white
-    btnNext_col = white
-
-
-    def __init__(self, width=screenWidth, height=screenHeight):
+    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize = (width, height)
-        self.backgroundColor = backgroundColor
 
     def get_display(self):
         pygame.init()
@@ -73,7 +49,7 @@ class display:
         os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
         os.environ["SDL_MOUSEDRV"] = "TSLIB"
 
-        screen.fill(self.backgroundColor)
+        screen.fill(CONFIG.backgroundColor)
         pygame.display.update()
         return screen
 
