@@ -8,16 +8,17 @@ import datetime
 import time
 import sys
 import string
-import logging
 import os
+import argparse
+import logging
 import pygame
 from pygame.locals import *
-import argparse
 
 from modules.theCamera import camera
 from modules.theDisplay import display
 from modules.smsService import sms
 from modules import config_simple as CONFIG
+
 
 # This function takes the name of an image to load.
 # It also optionally takes an argument it can use to set a colorkey for the image.

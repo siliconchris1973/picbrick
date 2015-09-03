@@ -2,6 +2,7 @@
 __author__ = 'chris'
 
 import logging
+
 try:
     import picamera
 except:

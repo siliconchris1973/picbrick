@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import pygame
 import os
+import pygame
 import logging
 import config_simple as CONFIG
+
 
 class display:
     screenWidth = CONFIG.screenWidth

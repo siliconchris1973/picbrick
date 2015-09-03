@@ -2,7 +2,9 @@
 __author__ = 'chris'
 
 import json
+
 import logging
+
 
 class configuration:
     def __init__(self, logger=None):

@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import logging
 import cv
+import logging
 from theCamera import camera
+
 
 class usbcam(camera):
     KAMERA_NR = 0

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import logging
 import logging.config
+
+import logging
 
 logger = logging.getLogger(__name__)
 

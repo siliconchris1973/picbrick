@@ -3,8 +3,8 @@ __author__ = 'chris'
 
 import urllib
 import urllib2
-import logging
 import os
+import logging
 
 
 class sms:
