@@ -1,82 +1,19 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
+import json
+
 class configuration:
     def __init__(self):
-        #
-        # GPIO ports
-        #
-        gpic = 21     # GPIO pin connected to the take a picture button
-        gvid = 20     # GPIO pin connected to the take a video button
-        gpir = 16     # GPIO pin connected to the PIR
+        with open('config.json') as json_data_file:
+            self.data = json.load(json_data_file)
 
 
-        #
-        # default input state for the GPIO connections'
-        #
-        input_state_pic = True
-        input_state_vid = True
-        input_state_pir = True
+    def print_config(self):
+        print "\n\nThis is the configuration class of the picbrick. It is usually not intended to be invoked by itself.\n" \
+          "For your \"convenients\" it will print the configuration if you do invoke it directly. So here it comes:\n\n"
+        print(self.data)
 
-
-        #
-        # directory structure
-        #
-        baseDataDirectory = "/usr/local/var/picbrick"
-        core_data = baseDataDirectory + "/" + "data"
-        initial_image = 'HAL900_320x240.png'
-        imageDir = baseDataDirectory + "/" + "images"
-        videoDir = baseDataDirectory + "/" + "videos"
-
-
-        #
-        # screen/display definition
-        #
-        screenWidth = 320
-        screenHeight = 240
-        screenSize = (screenWidth, screenHeight)
-
-
-        #
-        # picture and video size
-        #
-        pictureWidth = 320
-        pictureHeight = 240
-        videoWidth = 640
-        videoHeight = 240
-        videoDuration = 10
-
-
-        #
-        # how long to wait after taking photos and the like
-        #
-        waitTimeAfterPicture = 0
-        waitTimeAfterVideo = 0
-        waitTimeAfterEvent = 0
-
-
-        #
-        # run in automatic mode
-        #
-        # if set to true - button or command line argument -
-        # the camera will take pictures and videos, if the
-        # motion detector detects movement
-        autoMode = False
-
-
-        #
-        # color definitions
-        #
-        #color    R    G    B
-        white = (255, 255, 255)
-        red   = (255,   0,   0)
-        green = (  0, 255,   0)
-        blue  = (  0,   0, 255)
-        black = (  0,   0,   0)
-        cyan  = (  0, 255, 255)
-
-        backgroundColor = black
-
-        btnCycle_col = white
-        btnPrev_col = white
-        btnNext_col = white
+if __name__ == "__main__":
+    config = configuration()
+    config.print_config()

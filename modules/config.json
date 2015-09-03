@@ -1,0 +1,99 @@
+{
+  "GPIO_PINS" : {
+    "__comment" : "gpic = GPIO pin to take a picture / gvid = GPIO pin to take a video / gpir = GPIO pin of the PIR sensor",
+    "gpic" : 21,
+    "gvid" : 20,
+    "gpir" : 16
+  },
+
+  "GPIO_DEFAULT_INPUT_STATE" : {
+    "__comment" : "default state of the GPIO pins. The buttons are on High when inactive and the PIR is low when inactive",
+    "input_state_pic" : "True",
+    "input_state_vid" : "True",
+    "input_state_pir" : "False"
+  },
+
+  "DIRECTORY_STRUCTURE" : {
+    "baseDataDirectory" : "/usr/local/var/picbrick",
+    "core_data" : "data",
+    "imageDir" : "images",
+    "videoDir" : "videos",
+    "initial_image" : "HAL900_320x240.png"
+  },
+
+  "SIZE_DEFINITIONS" : {
+    "__comment" : "Defines the size of the TFT display attached, the picture and video size and also how long a video should but plus how many pictures to take in a row",
+    "screenWidth" : 320,
+    "screenHeight" : 240,
+    "pictureWidth" : 320,
+    "pictureHeight" : 240,
+    "videoWidth" : 640,
+    "videoHeight" : 240,
+    "videoDuration" : 10,
+    "numberOfPicsToTake" : 1
+  },
+
+  "EVENT_WAIT_TIME" : {
+    "__comment" : "how long to wait after taking photos and the like",
+    "waitTimeAfterPicture" : 0,
+    "waitTimeAfterVideo" : 0,
+    "waitTimeAfterEvent" : 0
+  },
+
+  "RUN_MODE" : {
+    "__comment" : "If you want to use the picbrick as a home surveillance system, set this to True and the camera will take pictures and videos, if the motion detector detects movement",
+    "autoMode" : "False"
+  },
+
+  "COLOR_DEFINITIONS" : {
+    "__comment" : "all color definitions go here",
+
+    "white" : {
+      "R" : 255,
+      "G" : 255,
+      "B" : 255,
+      "RGB" : "255, 255, 255"
+    },
+
+    "red" : {
+      "R" : 255,
+      "G" : 0,
+      "B" : 0,
+      "RGB" : "255, 0, 0"
+    },
+
+    "green" : {
+      "R" : 0,
+      "G" : 255,
+      "B" : 0,
+      "RGB" : "0, 255, 0"
+    },
+
+  "blue" : {
+      "R" : 0,
+      "G" : 0,
+      "B" : 255,
+      "RGB" : "0, 0, 255"
+    },
+
+    "black" : {
+      "R" : 0,
+      "G" : 0,
+      "B" : 0,
+      "RGB" : "0, 0, 0"
+    },
+
+    "cyan" : {
+      "R" : 0,
+      "G" : 255,
+      "B" : 255,
+      "RGB" : "0, 255, 255"
+    },
+
+    "backgroundcolor" : "black",
+
+    "btnCycle_col" : "white",
+    "btnPrev_col" : "white",
+    "btnNext_col" : "white"
+  }
+}
