@@ -69,10 +69,11 @@ class display:
     #
     # image functions
     #
-    def display_image(self, screen, filename):
+    def display_image(self, screen, filename, pos_x=0, pos_y=0):
         try:
             image = pygame.image.load(filename)
         except:
             syslog.syslog("Unable to find the image "+filename+" :-( ")
 
-        screen.blit(image,(0,0))
+        screen.blit(image,(pos_x,pos_y))
+        pygame.display.flip()
