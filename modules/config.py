@@ -8,6 +8,7 @@ class configuration:
         with open('config.json') as json_data_file:
             self.data = json.load(json_data_file)
 
+        config = json.loads(open('config.json').read())
 
     def print_config(self):
         print "\n\nThis is the configuration class of the picbrick. It is usually not intended to be invoked by itself.\n" \
