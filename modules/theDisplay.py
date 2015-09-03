@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import syslog
 import pygame
 import os
+import logging
 import config_simple as CONFIG
 
 class display:
@@ -12,18 +12,22 @@ class display:
     screenSize = (screenWidth, screenHeight)
     backgroundColor = CONFIG.backgroundColor
 
-    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
+    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight, logger=None):
+        self.logger = logger or logging.getLogger(__name__)
+
+        self.logger.debug('initializing display with ' + str(width) + 'x' + str(height))
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize = (width, height)
 
     def get_display(self):
+        self.logger = logging.getLogger(__name__)
         pygame.init()
         screen = pygame.display.set_mode(self.screenSize)
 
         disp_no = os.getenv('DISPLAY')
         if disp_no:
-            syslog.syslog("I'm running under X display = {0}".format(disp_no))
+            self.logger.debug("I'm running under X display = {0}".format(disp_no))
             pygame.mouse.set_visible(True)
         else:
             drivers = ['directfb', 'fbcon', 'svgalib']
@@ -34,14 +38,15 @@ class display:
                 try:
                     pygame.display.init()
                 except pygame.error:
-                    syslog.syslog('Driver: {0} failed.'.format(driver))
+                    self.logger.error('Driver: {0} failed.'.format(driver))
                     continue
                 found = True
-                syslog.syslog("I'm running on the framebuffer using driver " + str(driver))
+                self.logger.debug("I'm running on the framebuffer using driver " + str(driver))
                 pygame.mouse.set_visible(False)
                 break
 
             if not found:
+                self.logger.error('No suitable video driver found!')
                 raise Exception('No suitable video driver found!')
 
 
@@ -55,13 +60,17 @@ class display:
 
     # some fundamental getter and setter
     def getBackgroundColor(self):
+        self.logger = logging.getLogger(__name__)
         return self.backgroundColor
     def setBackgroundColor(self, color):
+        self.logger = logging.getLogger(__name__)
         self.backgroundColor = color
 
     def getScreenSize(self):
+        self.logger = logging.getLogger(__name__)
         return self.screenSize
     def setScreenSize(self, width, height):
+        self.logger = logging.getLogger(__name__)
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize(width, height)
@@ -70,10 +79,11 @@ class display:
     # image functions
     #
     def display_image(self, screen, filename, pos_x=0, pos_y=0):
+        self.logger = logging.getLogger(__name__)
         try:
             image = pygame.image.load(filename)
         except:
-            syslog.syslog("Unable to find the image "+filename+" :-( ")
+            self.logger.warn("Unable to find the image "+filename+" :-( ")
 
         screen.blit(image,(pos_x,pos_y))
         pygame.display.flip()

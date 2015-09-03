@@ -3,7 +3,7 @@ __author__ = 'chris'
 
 import urllib
 import urllib2
-import syslog
+import logging
 import os
 
 
@@ -12,7 +12,8 @@ class sms:
     #
     #Replace the xxxxxxx with the number you wish to text.
     to = "+4915112240942"
-    def __init__(self, message):
+    def __init__(self, message, logger=None):
+        self.logger = logger or logging.getLogger(__name__)
         hash = os.environ["environment"]
 
         print hash
@@ -26,12 +27,14 @@ class sms:
         postdata = urllib.urlencode(values)
         req = urllib2.Request(url, postdata)
 
-        syslog.syslog('Attempt to send SMS ...')
+        self.logger.info('Attempting to send SMS ...')
+        self.logger.debug("postdata: " + str(postdata))
+        self.logger.req("req: " + str(req))
 
         try:
             response = urllib2.urlopen(req)
             response_url = response.geturl()
             if response_url==url:
-                syslog.syslog(response.read())
+                self.logger.debug(response.read())
         except urllib2.URLError, e:
-            syslog.syslog(syslog.LOG_ERR, 'Send failed!' + e.reason)
+            self.logger.error('Send failed!' + e.reason)

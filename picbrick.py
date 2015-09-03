@@ -8,7 +8,7 @@ import datetime
 import time
 import sys
 import string
-import syslog
+import logging
 import os
 import pygame
 from pygame.locals import *
@@ -55,6 +55,8 @@ an invalid filename.
 
 
 def main(argv):
+    logger = logging.getLogger(__name__)
+
     parser = argparse.ArgumentParser(description='Take and display pictures and videos.')
     parser.add_argument('--automode', dest='autoMode',
                    help='shall the system run in automatic mode)')
@@ -87,13 +89,13 @@ def main(argv):
         GPIO.setup(CONFIG.gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(CONFIG.gpir, GPIO.IN)
     except:
-        syslog.syslog("could not set the GPIOs. \n")
+        logger.error("could not set the GPIOs. \n")
 
-    syslog.syslog('picbrick initialized')
+    logger.debug('picbrick initialized')
 
     fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
     myTFT.display_image(myScreen, fullname)
-    syslog.syslog('Ready to take pictures, videos or wait for the bad guys')
+    logger.info('Ready to take pictures, videos or wait for the bad guys')
 
     while True:
         # This limits the while loop to a max of 10 times per second.
@@ -105,7 +107,7 @@ def main(argv):
             input_state_vid = GPIO.input(CONFIG.gvid)
             input_state_pir = GPIO.input(CONFIG.gpir)
         except:
-            syslog.syslog("could not watch GPIO-ports, we should bail out here")
+            logger.error("could not watch GPIO-ports, we should bail out here")
             #raise Exception("could not watch GPIO-ports, we should bail out here")
 
         try:
@@ -115,21 +117,25 @@ def main(argv):
                     takeVideo = False
                     sendSms = False
                     eventSource = "picture_button"
+                    logger.debug("captured "+eventSource+" event")
                 elif input_state_vid == False:
                     takePicture = False
                     takeVideo = True
                     sendSms = False
                     eventSource = "video_button"
+                    logger.debug("captured "+eventSource+" event")
                 elif input_state_pir == True:
                     takePicture = True
                     takeVideo = True
                     sendSms = True
                     eventSource = "PIR motion detector"
+                    logger.debug("captured "+eventSource+" event")
                 else:
                     takePicture = False
                     takeVideo = False
                     sendSms = False
                     eventSource = "unknown"
+                    logger.warn("captured "+eventSource+" event")
 
 
                 a = datetime.datetime.now()
@@ -140,12 +146,12 @@ def main(argv):
                 vid = (CONFIG.videoDir)+("/vid_")+(b)+(".h264")
 
                 txtmessage = ("captured event (" + eventSource + ") at "+str(a))
-                syslog.syslog(txtmessage)
+                logger.info(txtmessage)
 
                 if takePicture:
                     #myCamera.takePicture(pic, pictureWidth, pictureHeight)
                     myCamera.takePicture(pic)
-                    syslog.syslog("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
+                    logger.info("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
 
                     fullname = os.path.join(CONFIG.imageDir, pic)
                     myTFT.display_image(myScreen, fullname)
@@ -159,7 +165,7 @@ def main(argv):
                 if takeVideo:
                     #myCamera.takeVideo(vid, videoWidth, videoHeight, videoDuration)
                     myCamera.takeVideo(vid)
-                    syslog.syslog(str(CONFIG.videoDuration) + " seconds of video taken, waiting " + str(CONFIG.waitTimeAfterVideo) + " seconds...")
+                    logger.info(str(CONFIG.videoDuration) + " seconds of video taken, waiting " + str(CONFIG.waitTimeAfterVideo) + " seconds...")
                     time.sleep(CONFIG.waitTimeAfterVideo)
 
                 if sendSms:
@@ -168,18 +174,20 @@ def main(argv):
 
 
 
-                syslog.syslog("event processed, waiting " + str(CONFIG.waitTimeAfterEvent) + " seconds...")
+                logger.info("event processed, waiting " + str(CONFIG.waitTimeAfterEvent) + " seconds...")
                 time.sleep(CONFIG.waitTimeAfterEvent)
 
-                syslog.syslog("all done, waiting for next event...")
+                logger.debug("all done, waiting for next event...")
         except:
-            syslog.syslog("could not process input event")
+            logger.error("could not process input event")
 
     try:
         GPIO.cleanup()
     except:
-        syslog.syslog("could not clean GPIO")
+        logger.error("could not clean GPIO")
 
 if __name__ == '__main__':
+    logger = logging.getLogger(__name__)
+    logger.debug("main function called")
     main(sys.argv)
 
