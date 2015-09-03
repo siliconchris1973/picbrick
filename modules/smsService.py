@@ -13,7 +13,7 @@ class sms:
     #Replace the xxxxxxx with the number you wish to text.
     to = "+4915112240942"
     def __init__(self, message):
-        hash = os.environ["smsHash"]
+        hash = os.environ["environment"]
 
         print hash
         values = {
