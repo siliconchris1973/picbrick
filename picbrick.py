@@ -94,7 +94,8 @@ def main(argv):
 
     logger.debug('picbrick initialized')
 
-    fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
+    #fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
+    fullname = CONFIG.core_data + "/" + CONFIG.initial_image
     myTFT.display_image(myScreen, fullname)
     logger.info('Ready to take pictures, videos or wait for the bad guys')
 

@@ -22,9 +22,9 @@ input_state_pir = True
 #
 baseDataDirectory = "/usr/local/var/picbrick"
 core_data = baseDataDirectory + "/" + "data"
-initial_image = 'HAL900_320x240.png'
 imageDir = baseDataDirectory + "/" + "images"
 videoDir = baseDataDirectory + "/" + "videos"
+initial_image = 'HAL900_320x240.png'
 
 
 #
