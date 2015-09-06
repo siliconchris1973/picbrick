@@ -92,8 +92,8 @@ def main(argv):
     except:
         logger.error("could not set the GPIOs. \n")
 
-    #fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
-    fullname = CONFIG.core_data + "/" + CONFIG.initial_image
+    fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
+    #fullname = CONFIG.core_data + "/" + CONFIG.initial_image
     logger.debug('PIcBrick initialized - displaying start picture ' + str(fullname))
     myTFT.display_image(myScreen, fullname)
     logger.info('Ready to take pictures, videos or wait for the bad guys')
@@ -151,11 +151,15 @@ def main(argv):
 
                 if takePicture:
                     #myCamera.takePicture(pic, pictureWidth, pictureHeight)
-                    myCamera.takePicture(pic)
-                    logger.info("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
+                    if CONFIG.camEnabled:
+                        myCamera.takePicture(pic)
+                        logger.info("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
 
                     fullname = os.path.join(CONFIG.imageDir, pic)
-                    myTFT.display_image(myScreen, fullname)
+                    if CONFIG.camEnabled:
+                        myTFT.display_image(myScreen, fullname)
+                    else:
+                        logger.info('I would have taken a picture with name ' + str(pic) + ' now.')
 
                     time.sleep(CONFIG.waitTimeAfterPicture)
                     time.sleep(3)
@@ -165,8 +169,12 @@ def main(argv):
 
                 if takeVideo:
                     #myCamera.takeVideo(vid, videoWidth, videoHeight, videoDuration)
-                    myCamera.takeVideo(vid)
-                    logger.info(str(CONFIG.videoDuration) + " seconds of video taken, waiting " + str(CONFIG.waitTimeAfterVideo) + " seconds...")
+                    if CONFIG.camEnabled:
+                        myCamera.takeVideo(vid)
+                        logger.info(str(CONFIG.videoDuration) + " seconds of video taken, waiting " + str(CONFIG.waitTimeAfterVideo) + " seconds...")
+                    else:
+                        logger.info('I would have taken a video with name ' + str(vid) + ' now.')
+
                     time.sleep(CONFIG.waitTimeAfterVideo)
 
                 if sendSms:
