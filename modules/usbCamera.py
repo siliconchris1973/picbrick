@@ -2,7 +2,7 @@
 __author__ = 'chris'
 
 import cv
-import logging
+import logger
 from theCamera import camera
 
 
@@ -10,12 +10,12 @@ class usbcam(camera):
     KAMERA_NR = 0
 
     def __init__(self):
-        logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
 
         cam = cv.CaptureFromCAM(self.KAMERA_NR)
 
     def startPreview(self, cam):
-        logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
 
         taste = 0
         while taste <> ord("q"):

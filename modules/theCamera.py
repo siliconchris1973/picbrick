@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import logging
+import logger
 
 try:
     import picamera
@@ -20,8 +20,8 @@ class camera(object):
     videoHeight = 240
     videoDuration = 10
 
-    def __init__(self, logger=None):
-        self.logger = logger or logging.getLogger(__name__)
+    def __init__(self):
+        self.logger = logger(self.__class__.__name__).get()
 
         try:
             camera = picamera.PiCamera()
@@ -32,11 +32,11 @@ class camera(object):
             #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
 
     def getCamera(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         return self.camera
 
     def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.logger.debug("taking picture with " + str(picWidth) + "x" + str(picHeight))
         try:
             self.camera.resolution = (picWidth, picHeight)
@@ -46,7 +46,7 @@ class camera(object):
             #raise Exception("Camera Error. This is serious")
 
     def takeVideo(self, vid, vidWidth=videoWidth, vidHeight=videoHeight, vidDur=videoDuration):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.logger.debug("taking " + str(vidDur) + " seconds of video with " + str(vidWidth) + "x" + str(vidHeight))
         try:
             self.camera.resolution = (vidWidth, vidHeight)
@@ -58,10 +58,10 @@ class camera(object):
             #raise Exception("Camera Error. This is serious")
 
     def startPreview(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.camera.start_preview()
 
     def stopPreview(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.camera.stop_preview()
 

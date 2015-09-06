@@ -1,4 +1,5 @@
 from twisted.python.filepath import FilePath
+import logger
 
 def similarChild(c, newdir):
     s = sorted(newdir.children(), reverse=True, key=lambda a: a.getModificationTime())
@@ -17,6 +18,7 @@ class FileNav(object):
     """
 
     def __init__(self, fp, sortbyname=False):
+        self.logger = logger(self.__class__.__name__).get()
         self._current = fp
         self.sortbyname = sortbyname
 

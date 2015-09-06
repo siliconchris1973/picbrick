@@ -3,7 +3,7 @@ __author__ = 'chris'
 
 import os
 import pygame
-import logging
+import logger
 import config_simple as CONFIG
 
 
@@ -13,8 +13,8 @@ class display:
     screenSize = (screenWidth, screenHeight)
     backgroundColor = CONFIG.backgroundColor
 
-    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight, logger=None):
-        self.logger = logger or logging.getLogger(__name__)
+    def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
+        self.logger = logger(self.__class__.__name__).get()
 
         self.logger.debug('initializing display with ' + str(width) + 'x' + str(height))
         self.screenWidth = width
@@ -22,7 +22,7 @@ class display:
         self.screenSize = (width, height)
 
     def get_display(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         pygame.init()
         screen = pygame.display.set_mode(self.screenSize)
 
@@ -61,17 +61,17 @@ class display:
 
     # some fundamental getter and setter
     def getBackgroundColor(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         return self.backgroundColor
     def setBackgroundColor(self, color):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.backgroundColor = color
 
     def getScreenSize(self):
         self.logger = logging.getLogger(__name__)
         return self.screenSize
     def setScreenSize(self, width, height):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize(width, height)
@@ -80,7 +80,7 @@ class display:
     # image functions
     #
     def display_image(self, screen, filename, pos_x=0, pos_y=0):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         try:
             image = pygame.image.load(filename)
         except:

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
+import logger
+
 # Button is a simple tappable screen region.  Each has:
 #  - bounding rect ((X,Y,W,H) in pixels)
 #  - optional background color and/or Icon (or None), always centered

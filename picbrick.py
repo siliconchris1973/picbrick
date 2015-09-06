@@ -10,7 +10,7 @@ import sys
 import string
 import os
 import argparse
-import logging
+#import logging
 import pygame
 from pygame.locals import *
 
@@ -18,7 +18,7 @@ from modules.theCamera import camera
 from modules.theDisplay import display
 from modules.smsService import sms
 from modules import config_simple as CONFIG
-
+from modules import logger
 
 # This function takes the name of an image to load.
 # It also optionally takes an argument it can use to set a colorkey for the image.
@@ -29,8 +29,7 @@ def load_image(directory, filename, colorkey=None):
     try:
         image = pygame.image.load(fullname)
     except pygame.error, message:
-        syslog.syslog('Cannot load image:' + filename + ' from directory ' + directory)
-        raise SystemExit, message
+        logger.error('Cannot load image:' + filename + ' from directory ' + directory)
     image = image.convert()
     if colorkey is not None:
         if colorkey is -1:
@@ -56,7 +55,7 @@ an invalid filename.
 
 
 def main(argv):
-    logger = logging.getLogger(__name__)
+    #logger = logging.getLogger(__name__)
 
     parser = argparse.ArgumentParser(description='Take and display pictures and videos.')
     parser.add_argument('--automode', dest='autoMode',
@@ -196,7 +195,7 @@ def main(argv):
         logger.error("could not clean GPIO")
 
 if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
+    #logger = logging.getLogger(__name__)
     logger.debug("main function called")
     main(sys.argv)
 

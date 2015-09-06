@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import logging
+import logger
 from theCamera import camera
 
 try:
@@ -13,8 +13,8 @@ except:
           "Or you tried to start this script on a system other than a Raspberry PI."
 
 class picam(camera):
-    def __init__(self, logger=None):
-        self.logger = logger or logging.getLogger(__name__)
+    def __init__(self):
+        self.logger = logger(self.__class__.__name__).get()
         try:
             camera = picamera.PiCamera()
         #except picamera.exc.PiCameraError, e:
@@ -24,9 +24,9 @@ class picam(camera):
             #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
 
     def startPreview(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.camera.start_preview()
 
     def stopPreview(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger(self.__class__.__name__).get()
         self.camera.stop_preview()
