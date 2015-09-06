@@ -18,6 +18,7 @@
     "core_data" : "data",
     "imageDir" : "images",
     "videoDir" : "videos",
+    "logging_dir" : "log",
     "initial_image" : "HAL900_320x240.png"
   },
 
