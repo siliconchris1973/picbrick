@@ -92,10 +92,9 @@ def main(argv):
     except:
         logger.error("could not set the GPIOs. \n")
 
-    logger.debug('picbrick initialized')
-
     #fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
     fullname = CONFIG.core_data + "/" + CONFIG.initial_image
+    logger.debug('PIcBrick initialized - displaying start picture ' + str(fullname))
     myTFT.display_image(myScreen, fullname)
     logger.info('Ready to take pictures, videos or wait for the bad guys')
 
