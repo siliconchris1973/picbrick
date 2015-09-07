@@ -69,7 +69,7 @@ class display:
 
 
     def __del__(self):
-        self.display_image(os.path.join(CONFIG.baseDataDirectory, CONFIG.end_image))
+        self.display_image(self.screen, os.path.join(CONFIG.baseDataDirectory, CONFIG.end_image))
 
 
     def test(self):
