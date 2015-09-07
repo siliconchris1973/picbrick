@@ -15,8 +15,8 @@ class sms:
     def __init__(self, message):
         self.logger = Logger.Logger(self.__class__.__name__).get()
         hash = os.environ["environment"]
+        self.logger.debug("initializing sms service with os environment " + str(hash))
 
-        print hash
         values = {
               'to' : self.to,
               'message' : message,
@@ -28,8 +28,8 @@ class sms:
         req = urllib2.Request(url, postdata)
 
         self.logger.info('Attempting to send SMS ...')
-        self.logger.debug("postdata: " + str(postdata))
-        self.logger.req("req: " + str(req))
+        self.logger.debug("  postdata: " + str(postdata))
+        self.logger.debug("  req: " + str(req))
 
         try:
             response = urllib2.urlopen(req)
@@ -40,4 +40,4 @@ class sms:
             self.logger.error('Send failed!' + e.reason)
 
 if __name__ == '__main__':
-    print "smsService is NOT intended to be started from command line  ... "
+    print "smsService.py is NOT intended to be started from command line  ... "

@@ -8,15 +8,15 @@ class Logger(object):
 
     def __init__(self, name):
         name = name.replace('.log','')
-        logger = logging.getLogger('log_namespace.%s' % name)    # log_namespace can be replaced with your namespace
+        logger = logging.getLogger('log_namespace.%s' % name)
         #logger.setLevel(logging.DEBUG)
         logger.setLevel(CONFIG.log_level)
         if not logger.handlers:
-            file_name = os.path.join(CONFIG.logging_dir, '%s.log' % name)    # usually I keep the LOGGING_DIR defined in some global settings file
+            file_name = os.path.join(CONFIG.logging_dir, '%s.log' % name)
             handler = logging.FileHandler(file_name)
             formatter = logging.Formatter('%(asctime)s %(levelname)s:%(name)s %(message)s')
             handler.setFormatter(formatter)
-            handler.setLevel(logging.DEBUG)
+            handler.setLevel(CONFIG.log_level)
             logger.addHandler(handler)
         self._logger = logger
 

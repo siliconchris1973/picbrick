@@ -21,6 +21,7 @@ class FileNav(object):
         self.logger = Logger.Logger(self.__class__.__name__).get()
         self._current = fp
         self.sortbyname = sortbyname
+        self.logger.debug("initializing filenav with " + str(fp) " and sortbyname=" + str(sortbyname))
 
     def setCurrent(self, current):
         if not isinstance(current, FilePath):
@@ -28,6 +29,7 @@ class FileNav(object):
         self._current = current
 
     def getCurrent(self):
+        self.logger.debug("returning current file pointer as " + str(self._current))
         return self._current
 
     current = property(getCurrent, setCurrent)

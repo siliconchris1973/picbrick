@@ -62,28 +62,38 @@ class display:
 
     # some fundamental getter and setter
     def getBackgroundColor(self):
+        self.logger.debug("returning background color " + str(self.backgroundColor))
         return self.backgroundColor
     def setBackgroundColor(self, color):
+        self.logger.debug("setting background color to " + str(color))
         self.backgroundColor = color
 
     def getScreenSize(self):
+        self.logger.debug("returning display size " + str(self.screenSize))
         return self.screenSize
     def setScreenSize(self, width, height):
+        self.logger.debug("setting screen size to " + str(width) + "x" + str(height))
         self.screenWidth = width
         self.screenHeight = height
         self.screenSize(width, height)
+
+    def testScreenSize(self):
+        self.logger.debug("testing screen size")
+        #ui.get_screen_size()[0]
 
     #
     # image functions
     #
     def display_image(self, screen, filename, pos_x=0, pos_y=0):
+        self.logger.debug("displaying image "+filename+" at " + str(pos_x) + " / " + str(pos_y))
         try:
             image = pygame.image.load(filename)
         except:
             self.logger.warn("Unable to find the image "+filename+" :-( ")
-
+        self.logger.debug("image blit")
         screen.blit(image,(pos_x,pos_y))
+        self.logger.debug("display flip")
         pygame.display.flip()
 
 if __name__ == '__main__':
-    print "theDisplay is NOT intended to be started from command line  ... "
+    print "theDisplay.py is NOT intended to be started from command line  ... "

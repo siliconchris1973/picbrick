@@ -22,7 +22,7 @@ class camera(object):
 
     def __init__(self):
         self.logger = Logger.Logger(self.__class__.__name__).get()
-
+        self.logger.debug("initializing camera")
         try:
             camera = picamera.PiCamera()
         #except picamera.exc.PiCameraError, e:
@@ -32,6 +32,7 @@ class camera(object):
             #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
 
     def getCamera(self):
+        self.logger.debug("returning camera object")
         return self.camera
 
     def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
@@ -55,10 +56,12 @@ class camera(object):
             #raise Exception("Camera Error. This is serious")
 
     def startPreview(self):
+        self.logger.debug("starting live preview")
         self.camera.start_preview()
 
     def stopPreview(self):
+        self.logger.debug("stopping live preview")
         self.camera.stop_preview()
 
 if __name__ == '__main__':
-    print "theCamera is NOT intended to be started from command line  ... "
+    print "theCamera.py is NOT intended to be started from command line  ... "
