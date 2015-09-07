@@ -97,7 +97,7 @@ class picbrick:
 
 
     def __del__(self):
-        fullname = os.path.join(CONFIG.core_data, CONFIG.end_image)
+        fullname = CONFIG.core_data + "/" + CONFIG.end_image
         self.logger.debug('PIcBrick shutting down - displaying end picture ' + str(fullname))
         self.myTFT.display_image(self.myScreen, fullname)
         self.clock.tick(100)
