@@ -38,3 +38,6 @@ class sms:
                 self.logger.debug(response.read())
         except urllib2.URLError, e:
             self.logger.error('Send failed!' + e.reason)
+
+if __name__ == '__main__':
+    print "smsService is NOT intended to be started from command line  ... "

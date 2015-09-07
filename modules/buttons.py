@@ -66,3 +66,6 @@ class Button:
                 if name == i.name:
                     self.iconBg = i
                     break
+
+if __name__ == '__main__':
+    print "buttons is NOT intended to be started from command line  ... "

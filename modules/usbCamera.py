@@ -11,12 +11,9 @@ class usbcam(camera):
 
     def __init__(self):
         self.logger = logger(self.__class__.__name__).get()
-
         cam = cv.CaptureFromCAM(self.KAMERA_NR)
 
     def startPreview(self, cam):
-        self.logger = logger(self.__class__.__name__).get()
-
         taste = 0
         while taste <> ord("q"):
             bild = cv.QueryFrame(cam)

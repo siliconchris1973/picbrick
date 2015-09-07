@@ -55,3 +55,6 @@ class FileNav(object):
         return all[z]
 
     next = property(getNext)
+
+if __name__ == '__main__':
+    print "filenav is NOT intended to be started from command line  ... "

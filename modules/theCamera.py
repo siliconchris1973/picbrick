@@ -32,11 +32,9 @@ class camera(object):
             #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
 
     def getCamera(self):
-        self.logger = logger(self.__class__.__name__).get()
         return self.camera
 
     def takePicture(self, pic, picWidth=pictureWidth, picHeight=pictureHeight):
-        self.logger = logger(self.__class__.__name__).get()
         self.logger.debug("taking picture with " + str(picWidth) + "x" + str(picHeight))
         try:
             self.camera.resolution = (picWidth, picHeight)
@@ -46,7 +44,6 @@ class camera(object):
             #raise Exception("Camera Error. This is serious")
 
     def takeVideo(self, vid, vidWidth=videoWidth, vidHeight=videoHeight, vidDur=videoDuration):
-        self.logger = logger(self.__class__.__name__).get()
         self.logger.debug("taking " + str(vidDur) + " seconds of video with " + str(vidWidth) + "x" + str(vidHeight))
         try:
             self.camera.resolution = (vidWidth, vidHeight)
@@ -58,10 +55,10 @@ class camera(object):
             #raise Exception("Camera Error. This is serious")
 
     def startPreview(self):
-        self.logger = logger(self.__class__.__name__).get()
         self.camera.start_preview()
 
     def stopPreview(self):
-        self.logger = logger(self.__class__.__name__).get()
         self.camera.stop_preview()
 
+if __name__ == '__main__':
+    print "theCamera is NOT intended to be started from command line  ... "

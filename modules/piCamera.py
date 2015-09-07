@@ -24,9 +24,10 @@ class picam(camera):
             #raise Exception("Camera Error. This is serious as it prevents me from fullfilling my one and only duty, taking photos")
 
     def startPreview(self):
-        self.logger = logger(self.__class__.__name__).get()
         self.camera.start_preview()
 
     def stopPreview(self):
-        self.logger = logger(self.__class__.__name__).get()
         self.camera.stop_preview()
+
+if __name__ == '__main__':
+    print "piCamera is NOT intended to be started from command line  ... "
