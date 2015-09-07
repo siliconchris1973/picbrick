@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6073649-acf6-4047-81b7-9914a37ec30c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/picbrick.py" afterPath="$PROJECT_DIR$/picbrick.py" />
-    </list>
+    <list default="true" id="e6073649-acf6-4047-81b7-9914a37ec30c" name="Default" comment="" />
     <ignored path="PyPIR.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,12 +21,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="picbrick.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/picbrick.py">
+      <file leaf-file-name="Logger.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/modules/Logger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3642857">
-              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-              <folding />
+            <state vertical-scroll-proportion="0.21428572">
+              <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+              <folding>
+                <element signature="e#43#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -75,7 +75,6 @@
         <option value="$PROJECT_DIR$/modules/config.json" />
         <option value="$PROJECT_DIR$/modules/buttons.py" />
         <option value="$PROJECT_DIR$/modules/config_simple.py" />
-        <option value="$PROJECT_DIR$/modules/Logger.py" />
         <option value="$PROJECT_DIR$/modules/theCamera.py" />
         <option value="$PROJECT_DIR$/modules/smsService.py" />
         <option value="$PROJECT_DIR$/modules/piCamera.py" />
@@ -88,6 +87,7 @@
         <option value="$PROJECT_DIR$/modules/README.md" />
         <option value="$PROJECT_DIR$/modules/filenav.py" />
         <option value="$PROJECT_DIR$/picbrick.py" />
+        <option value="$PROJECT_DIR$/modules/Logger.py" />
       </list>
     </option>
   </component>
@@ -153,20 +153,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyPIR" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="picbrick" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -616,24 +602,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/config_simple.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64377683">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/Logger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.472103">
-          <caret line="22" column="18" selection-start-line="22" selection-start-column="18" selection-end-line="22" selection-end-column="18" />
-          <folding>
-            <element signature="e#43#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/smsService.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6151645">
@@ -807,6 +775,24 @@
         <state vertical-scroll-proportion="0.3642857">
           <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/config_simple.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42857143">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/Logger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21428572">
+          <caret line="10" column="39" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="39" />
+          <folding>
+            <element signature="e#43#52#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
