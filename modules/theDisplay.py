@@ -68,10 +68,6 @@ class display:
         return screen
 
 
-    def __del__(self):
-        self.display_image(self.screen, os.path.join(CONFIG.baseDataDirectory, CONFIG.end_image))
-
-
     def test(self):
         # Fill the screen with red (255, 0, 0)
         red = (255, 0, 0)
