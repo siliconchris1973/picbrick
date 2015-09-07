@@ -97,10 +97,10 @@ class picbrick:
 
 
     def __del__(self):
-        fullname = CONFIG.core_data + "/" + CONFIG.end_image
-        self.logger.debug('PIcBrick shutting down - displaying end picture ' + str(fullname))
+        fullname = "/usr/local/var/picbrick/data/endPicture.png"
         self.myTFT.display_image(self.myScreen, fullname)
         self.clock.tick(100)
+        
         try:
             GPIO.cleanup()
         except:
