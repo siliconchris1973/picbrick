@@ -69,7 +69,6 @@ class display:
 
 
     def __del__(self):
-        self.logger("shutting down")
         self.display_image(os.path.join(CONFIG.baseDataDirectory, CONFIG.end_image))
 
 

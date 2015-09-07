@@ -38,12 +38,6 @@ class picbrick:
     def __init__(self):
         # we only want to log the GPIO-Errors ONE time.
         self.alreadyLoggedGPIOError = False
-
-        # set the GPIO-input ports to a value, that will NOT execute the event
-        self.input_state_pic = True
-        self.input_state_vid = True
-        self.input_state_pir = False
-
         self.logger = Logger.Logger(self.__class__.__name__).get()
 
     # This function takes the name of an image to load.

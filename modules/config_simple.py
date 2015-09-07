@@ -19,7 +19,7 @@ camEnabled = True
 #
 input_state_pic = True
 input_state_vid = True
-input_state_pir = True
+input_state_pir = False
 
 
 #
