@@ -58,9 +58,9 @@ class display:
             self.screenHeight = (pygame.display.Info().current_h)
             self.screen = pygame.display.set_mode(self.screenSize, pygame.FULLSCREEN)
 
-        #os.environ["SDL_FBDEV"] = "/dev/fb1"
-        #os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
-        #os.environ["SDL_MOUSEDRV"] = "TSLIB"
+        os.environ["SDL_FBDEV"] = "/dev/fb1"
+        os.environ["SDL_MOUSEDEV"] = "/dev/input/event0" # should usually be touchscreen, but can't get that to appear
+        os.environ["SDL_MOUSEDRV"] = "TSLIB"
 
         screen.fill(CONFIG.backgroundColor)
         pygame.font.init()
@@ -69,7 +69,8 @@ class display:
 
 
     def __del__(self):
-        "Destructor to make sure pygame shuts down, etc."
+        self.logger("shutting down")
+        self.screen.fill(CONFIG.endColor)
 
     def test(self):
         # Fill the screen with red (255, 0, 0)

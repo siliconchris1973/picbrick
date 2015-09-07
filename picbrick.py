@@ -101,6 +101,10 @@ class picbrick:
 
         args = parser.parse_args()
 
+    
+    def __del__(self):
+        self.logger("shutting down")
+
 
     def run(self):
         myTFT = display()

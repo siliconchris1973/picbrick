@@ -8,7 +8,11 @@ gpic = 21     # GPIO pin connected to the take a picture button
 gvid = 20     # GPIO pin connected to the take a video button
 gpir = 16     # GPIO pin connected to the PIR
 
-camEnabled = False # if set to False, the system will not take pictures, but rather log and print an information that it would take a pictur or a video.
+
+# if set to False, the system will not take pictures,
+# but rather log and print an information that it would take a pictur or a video.
+camEnabled = True
+
 
 #
 # default input state for the GPIO connections'
@@ -78,6 +82,7 @@ black = (  0,   0,   0)
 cyan  = (  0, 255, 255)
 
 backgroundColor = black
+endColor = red
 
 btnCycle_col = white
 btnPrev_col = white
