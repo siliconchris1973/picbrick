@@ -42,6 +42,7 @@ class display:
                 except pygame.error:
                     self.logger.error('Driver: {0} failed.'.format(driver))
                     continue
+
                 found = True
                 self.logger.debug("I'm running on the framebuffer using driver " + str(driver))
                 pygame.mouse.set_visible(False)
@@ -51,14 +52,32 @@ class display:
                 self.logger.error('No suitable video driver found!')
                 raise Exception('No suitable video driver found!')
 
-
-        os.environ["SDL_FBDEV"] = "/dev/fb1"
-        os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
-        os.environ["SDL_MOUSEDRV"] = "TSLIB"
+            # I moved these here, so that, when debugging on my laptop, I do NOT go fullscreen
+            self.screenSize = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+            self.screenWidth = (pygame.display.Info().current_w)
+            self.screenHeight = (pygame.display.Info().current_h)
+            self.screen = pygame.display.set_mode(self.screenSize, pygame.FULLSCREEN)
+        
+        #os.environ["SDL_FBDEV"] = "/dev/fb1"
+        #os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
+        #os.environ["SDL_MOUSEDRV"] = "TSLIB"
 
         screen.fill(CONFIG.backgroundColor)
+        pygame.font.init()
         pygame.display.update()
         return screen
+
+
+    def __del__(self):
+        "Destructor to make sure pygame shuts down, etc."
+
+    def test(self):
+        # Fill the screen with red (255, 0, 0)
+        red = (255, 0, 0)
+        self.screen.fill(red)
+        # Update the display
+        pygame.display.update()
+
 
     # some fundamental getter and setter
     def getBackgroundColor(self):
