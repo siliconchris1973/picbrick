@@ -72,7 +72,7 @@ class picbrick:
         return filename
 
 
-    def run(self, argv):
+    def getCommandLineArguments(self, argv):
         parser = argparse.ArgumentParser(description='Take and display pictures and videos.')
         parser.add_argument('--automode', dest='autoMode',
                        help='shall the system run in automatic mode)')
@@ -93,6 +93,8 @@ class picbrick:
 
         args = parser.parse_args()
 
+    
+    def run(self):
         myTFT = display()
         myScreen = myTFT.get_display()
         myCamera = camera()
@@ -213,5 +215,6 @@ class picbrick:
 if __name__ == '__main__':
     print "PIcBrick started ... "
     pib = picbrick()
-    pib.run(sys.argv)
+    pib.getCommandLineArguments(sys.argv)
+    pib.run()
 

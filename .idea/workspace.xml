@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6073649-acf6-4047-81b7-9914a37ec30c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/images/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/modules/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/videos/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/README.md" afterPath="$PROJECT_DIR$/log/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/filenav.py" afterPath="$PROJECT_DIR$/modules/filenav.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/piCamera.py" afterPath="$PROJECT_DIR$/modules/piCamera.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/picbrick.py" afterPath="$PROJECT_DIR$/picbrick.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/smsService.py" afterPath="$PROJECT_DIR$/modules/smsService.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/theCamera.py" afterPath="$PROJECT_DIR$/modules/theCamera.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/theDisplay.py" afterPath="$PROJECT_DIR$/modules/theDisplay.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/usbCamera.py" afterPath="$PROJECT_DIR$/modules/usbCamera.py" />
     </list>
     <ignored path="PyPIR.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,9 +27,21 @@
       <file leaf-file-name="picbrick.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/picbrick.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47142857">
-              <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.21428572">
+              <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filenav.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/filenav.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,14 +93,14 @@
         <option value="$PROJECT_DIR$/modules/smsService.py" />
         <option value="$PROJECT_DIR$/modules/piCamera.py" />
         <option value="$PROJECT_DIR$/modules/usbCamera.py" />
-        <option value="$PROJECT_DIR$/modules/filenav.py" />
         <option value="$PROJECT_DIR$/modules/theDisplay.py" />
-        <option value="$PROJECT_DIR$/picbrick.py" />
         <option value="$PROJECT_DIR$/videos/README.md" />
         <option value="$PROJECT_DIR$/images/README.md" />
         <option value="$PROJECT_DIR$/data/README.md" />
         <option value="$PROJECT_DIR$/log/README.md" />
         <option value="$PROJECT_DIR$/modules/README.md" />
+        <option value="$PROJECT_DIR$/modules/filenav.py" />
+        <option value="$PROJECT_DIR$/picbrick.py" />
       </list>
     </option>
   </component>
@@ -150,6 +152,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="picbrick" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyPIR" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="picbrick" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -366,9 +382,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="140" y="43" width="1400" height="943" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24945612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24945612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14654163" sideWeight="0.5025381" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -669,16 +685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modules/filenav.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33571428">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/theDisplay.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.7142857">
@@ -799,10 +805,20 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/modules/filenav.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/picbrick.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47142857">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.21428572">
+          <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
           <folding />
         </state>
       </provider>
