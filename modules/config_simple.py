@@ -29,6 +29,7 @@ initial_image = 'HAL900_320x240.png'
 
 logging_dir = baseDataDirectory + "/" + "log"
 log_level = "DEBUG"
+printLogToConsole = True
 
 #
 # screen/display definition

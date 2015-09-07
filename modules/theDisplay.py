@@ -57,7 +57,7 @@ class display:
             self.screenWidth = (pygame.display.Info().current_w)
             self.screenHeight = (pygame.display.Info().current_h)
             self.screen = pygame.display.set_mode(self.screenSize, pygame.FULLSCREEN)
-        
+
         #os.environ["SDL_FBDEV"] = "/dev/fb1"
         #os.environ["SDL_MOUSEDEV"] = "/dev/input/touchscreen"
         #os.environ["SDL_MOUSEDRV"] = "TSLIB"

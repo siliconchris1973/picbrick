@@ -36,6 +36,14 @@ except ImportError, e:
 
 class picbrick:
     def __init__(self):
+        # we only want to log the GPIO-Errors ONE time.
+        self.alreadyLoggedGPIOError = False
+
+        # set the GPIO-input ports to a value, that will NOT execute the event
+        self.input_state_pic = True
+        self.input_state_vid = True
+        self.input_state_pir = False
+
         self.logger = Logger.Logger(self.__class__.__name__).get()
 
     # This function takes the name of an image to load.
@@ -108,6 +116,7 @@ class picbrick:
             GPIO.setup(CONFIG.gpir, GPIO.IN)
         except:
             self.logger.error("could not set the GPIOs. \n")
+            self.alreadyLoggedGPIOError = True
 
         fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
         #fullname = CONFIG.core_data + "/" + CONFIG.initial_image
@@ -125,7 +134,9 @@ class picbrick:
                 input_state_vid = GPIO.input(CONFIG.gvid)
                 input_state_pir = GPIO.input(CONFIG.gpir)
             except:
-                self.logger.error("could not watch GPIO-ports, we should bail out here")
+                if (self.alreadyLoggedGPIOError==False):
+                    self.logger.error("could not watch GPIO-ports, we should bail out here")
+                    self.alreadyLoggedGPIOError = True
                 #raise Exception("could not watch GPIO-ports, we should bail out here")
 
             try:
@@ -205,7 +216,10 @@ class picbrick:
 
                     self.logger.debug("all done, waiting for next event...")
             except:
-                self.logger.error("could not process input event")
+                e = sys.exc_info()[1]
+                t = sys.exc_info()[0]
+                self.logger.error("could not process input event. \n Error was: " + str(e) + " / " + str(t))
+                sys.exit(-1)
 
         try:
             GPIO.cleanup()
