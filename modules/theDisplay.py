@@ -77,6 +77,10 @@ class display:
         self.screenHeight = height
         self.screenSize(width, height)
 
+    def getSurface(self):
+        self.logger.debug("returning surface object " + str(pygame.display.get_surface()))
+        return pygame.display.get_surface()
+
     def testScreenSize(self):
         self.logger.debug("testing screen size")
         #ui.get_screen_size()[0]
@@ -90,6 +94,7 @@ class display:
             image = pygame.image.load(filename)
         except:
             self.logger.warn("Unable to find the image "+filename+" :-( ")
+        screen = self.getSurface()
         self.logger.debug("image blit")
         screen.blit(image,(pos_x,pos_y))
         self.logger.debug("display flip")
