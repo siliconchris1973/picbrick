@@ -93,7 +93,7 @@ class picbrick:
 
         args = parser.parse_args()
 
-    
+
     def run(self):
         myTFT = display()
         myScreen = myTFT.get_display()

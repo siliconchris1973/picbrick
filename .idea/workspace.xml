@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6073649-acf6-4047-81b7-9914a37ec30c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/filenav.py" afterPath="$PROJECT_DIR$/modules/filenav.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/picbrick.py" afterPath="$PROJECT_DIR$/picbrick.py" />
     </list>
     <ignored path="PyPIR.iws" />
@@ -27,21 +26,9 @@
       <file leaf-file-name="picbrick.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/picbrick.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.21428572">
-              <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
+            <state vertical-scroll-proportion="0.3642857">
+              <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="filenav.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/filenav.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#44#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -807,7 +794,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/filenav.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.08571429">
           <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
@@ -817,8 +804,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/picbrick.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21428572">
-          <caret line="95" column="4" selection-start-line="95" selection-start-column="4" selection-end-line="95" selection-end-column="4" />
+        <state vertical-scroll-proportion="0.3642857">
+          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
           <folding />
         </state>
       </provider>
