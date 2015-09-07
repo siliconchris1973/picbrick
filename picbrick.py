@@ -2,23 +2,36 @@
 __author__ = 'chris'
 try:
     import RPi.GPIO as GPIO
-except:
-    print "could not load GPIO - you probably run this script on a system other than a Raspberry PI."
-import datetime
-import time
-import sys
-import string
-import os
-import argparse
-#import logging
-import pygame
-from pygame.locals import *
+except ImportError:
+    print "could not load GPIO - you probably run this script on a system other than a Raspberry PI.\n" \
+          "As it might be, that you are simply debugging this script on a desktop, I will try to go on"
 
-from modules.theCamera import camera
-from modules.theDisplay import display
-from modules.smsService import sms
-from modules import config_simple as CONFIG
-from modules import Logger
+try:
+    import datetime
+    import time
+    import sys
+    import string
+    import os
+    import argparse
+    import pygame
+    from pygame.locals import *
+except ImportError, e:
+    print "\nCould not load one or more essential dependencies, so cowardly refusing to go any further\n>>> Error was: " + str(e)
+    sys.exit(-1)
+
+try:
+    from modules.theCamera import camera
+    from modules.theDisplay import display
+    from modules.smsService import sms
+    from modules import config_simple as CONFIG
+    from modules import Logger
+except ImportError, e:
+    print "\nCould not load one or more essential modules from my modules directory, so cowardly refusing to go any further\n" \
+          "Did you clone picbrick from github? If not, take a look at the README.md from\n" \
+          "     https://github.com/siliconchris1973/picbrick\n" \
+          "on how to correctly build and setup the system\n" \
+          ">>> Error was: " + str(e)
+    sys.exit(-1)
 
 
 class picbrick:
