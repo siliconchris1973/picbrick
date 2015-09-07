@@ -4,7 +4,7 @@ __author__ = 'chris'
 import os
 import pygame
 
-import logger
+import Logger
 import config_simple as CONFIG
 
 
@@ -15,7 +15,7 @@ class display:
     backgroundColor = CONFIG.backgroundColor
 
     def __init__(self, width=CONFIG.screenWidth, height=CONFIG.screenHeight):
-        self.logger = logger(self.__class__.__name__).get()
+        self.logger = Logger.Logger(self.__class__.__name__).get()
 
         self.logger.debug('initializing display with ' + str(width) + 'x' + str(height))
         self.screenWidth = width

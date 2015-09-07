@@ -4,7 +4,7 @@ __author__ = 'chris'
 import urllib
 import urllib2
 import os
-import logger
+import Logger
 
 
 class sms:
@@ -13,7 +13,7 @@ class sms:
     #Replace the xxxxxxx with the number you wish to text.
     to = "+4915112240942"
     def __init__(self, message):
-        self.logger = logger(self.__class__.__name__).get()
+        self.logger = Logger.Logger(self.__class__.__name__).get()
         hash = os.environ["environment"]
 
         print hash

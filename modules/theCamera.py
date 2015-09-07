@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __author__ = 'chris'
 
-import logger
+import Logger
 
 try:
     import picamera
@@ -21,7 +21,7 @@ class camera(object):
     videoDuration = 10
 
     def __init__(self):
-        self.logger = logger(self.__class__.__name__).get()
+        self.logger = Logger.Logger(self.__class__.__name__).get()
 
         try:
             camera = picamera.PiCamera()

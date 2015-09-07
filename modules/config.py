@@ -3,12 +3,12 @@ __author__ = 'chris'
 
 import json
 
-import logger
+import Logger
 
 
 class configuration:
     def __init__(self):
-        self.logger = logger(self.__class__.__name__).get()
+        self.logger = Logger(self.__class__.__name__).get()
         self.logger.debug("importing json configuration file config.json")
         with open('config.json') as json_data_file:
             self.data = json.load(json_data_file)

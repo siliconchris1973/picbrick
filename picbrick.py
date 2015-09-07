@@ -18,12 +18,12 @@ from modules.theCamera import camera
 from modules.theDisplay import display
 from modules.smsService import sms
 from modules import config_simple as CONFIG
-from modules import logger
+from modules import Logger
 
 
 class picbrick:
-    def __init(self):
-        self.logger = logger(self.__class__.__name__).get()
+    def __init__(self):
+        self.logger = Logger.Logger(self.__class__.__name__).get()
 
     # This function takes the name of an image to load.
     # It also optionally takes an argument it can use to set a colorkey for the image.

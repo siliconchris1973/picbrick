@@ -28,6 +28,7 @@ videoDir = baseDataDirectory + "/" + "videos"
 initial_image = 'HAL900_320x240.png'
 
 logging_dir = baseDataDirectory + "/" + "log"
+log_level = "DEBUG"
 
 #
 # screen/display definition

@@ -2,14 +2,15 @@
 __author__ = 'chris'
 import os
 import logging
-import config_simple as CONFIG# alternativly from whereever import settings
+import config_simple as CONFIG
 
 class Logger(object):
 
     def __init__(self, name):
         name = name.replace('.log','')
         logger = logging.getLogger('log_namespace.%s' % name)    # log_namespace can be replaced with your namespace
-        logger.setLevel(logging.DEBUG)
+        #logger.setLevel(logging.DEBUG)
+        logger.setLevel(CONFIG.log_level)
         if not logger.handlers:
             file_name = os.path.join(CONFIG.logging_dir, '%s.log' % name)    # usually I keep the LOGGING_DIR defined in some global settings file
             handler = logging.FileHandler(file_name)
