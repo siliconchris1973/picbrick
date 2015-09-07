@@ -70,7 +70,8 @@ class display:
 
     def __del__(self):
         self.logger("shutting down")
-        self.screen.fill(CONFIG.endColor)
+        self.display_image(os.path.join(CONFIG.baseDataDirectory, CONFIG.end_image))
+
 
     def test(self):
         # Fill the screen with red (255, 0, 0)

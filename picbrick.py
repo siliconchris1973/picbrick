@@ -101,9 +101,12 @@ class picbrick:
 
         args = parser.parse_args()
 
-    
+
     def __del__(self):
-        self.logger("shutting down")
+        try:
+            GPIO.cleanup()
+        except:
+            raise Exception("could not clean GPIO-ports")
 
 
     def run(self):

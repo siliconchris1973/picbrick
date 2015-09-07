@@ -30,6 +30,7 @@ core_data = baseDataDirectory + "/" + "data"
 imageDir = baseDataDirectory + "/" + "images"
 videoDir = baseDataDirectory + "/" + "videos"
 initial_image = 'HAL900_320x240.png'
+end_image = 'endPicture.png'
 
 logging_dir = baseDataDirectory + "/" + "log"
 log_level = "DEBUG"
