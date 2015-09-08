@@ -8,7 +8,6 @@ import config_simple as CONFIG
 class Logger(object):
 
     def __init__(self, name):
-
         name = name.replace('.log','')
         logger = logging.getLogger('log.%s.py' % name)
         logger.setLevel(CONFIG.log_level)

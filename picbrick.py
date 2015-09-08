@@ -2,7 +2,7 @@
 __author__ = 'chris'
 try:
     import RPi.GPIO as GPIO
-except ImportError:
+except ImportError, e:
     print "could not load GPIO - you probably run this script on a system other than a Raspberry PI.\n" \
           "As it might be, that you are simply debugging this script on a desktop, I will try to go on"
 
@@ -25,6 +25,8 @@ try:
     from modules.smsService import sms
     from modules import config_simple as CONFIG
     from modules import Logger
+    from modules import fileWatcher
+    from modules.event import Event
 except ImportError, e:
     print "\nCould not load one or more essential modules from my modules directory, so cowardly refusing to go any further\n" \
           "Did you clone picbrick from github? If not, take a look at the README.md from\n" \
@@ -39,6 +41,17 @@ class picbrick:
         # we only want to log the GPIO-Errors ONE time.
         self.alreadyLoggedGPIOError = False
         self.logger = Logger.Logger(self.__class__.__name__).get()
+
+    """
+    def __del__(self):
+        #fullname = "/usr/local/var/picbrick/data/endPicture.png"
+        #self.myTFT.display_image(self.myScreen, fullname)
+        #self.clock.tick(100)
+        try:
+            GPIO.cleanup()
+        except:
+            raise Exception("could not clean GPIO-ports")
+    """
 
     # This function takes the name of an image to load.
     # It also optionally takes an argument it can use to set a colorkey for the image.
@@ -73,7 +86,6 @@ class picbrick:
         filename = filename.replace(' ','_') # I don't like spaces in filenames.
         return filename
 
-
     def getCommandLineArguments(self, argv):
         parser = argparse.ArgumentParser(description='Take and display pictures and videos.')
         parser.add_argument('--automode', dest='autoMode',
@@ -95,33 +107,38 @@ class picbrick:
 
         args = parser.parse_args()
 
+    def log_file_change(source_path):
+        print "%r changed." % (source_path,)
 
-    def __del__(self):
-        fullname = "/usr/local/var/picbrick/data/endPicture.png"
-        self.myTFT.display_image(self.myScreen, fullname)
-        self.clock.tick(100)
-        
-        try:
-            GPIO.cleanup()
-        except:
-            raise Exception("could not clean GPIO-ports")
-
+    def log_file_change2(source_path):
+        print "%r changed!" % (source_path,)
 
     def run(self):
         myTFT = display()
         myScreen = myTFT.get_display()
-        myCamera = camera()
+        if CONFIG.camEnabled:
+            myCamera = camera()
         autoMode = CONFIG.autoMode
         clock = pygame.time.Clock()
 
-        try:
-            GPIO.setmode(GPIO.BCM)
-            GPIO.setup(CONFIG.gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-            GPIO.setup(CONFIG.gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-            GPIO.setup(CONFIG.gpir, GPIO.IN)
-        except:
-            self.logger.error("could not set the GPIOs. \n")
-            self.alreadyLoggedGPIOError = True
+        # initialize file watcher
+        watcher              = fileWatcher(CONFIG.imageDir)
+        watcher.fileChanged += self.log_file_change2
+        watcher.fileChanged += self.log_file_change
+        watcher.fileChanged -= self.log_file_change2
+        watcher.watchFiles()
+
+        if CONFIG.gpioEnabled:
+            try:
+                GPIO.setmode(GPIO.BCM)
+                GPIO.setup(CONFIG.gpic, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+                GPIO.setup(CONFIG.gvid, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+                GPIO.setup(CONFIG.gpir, GPIO.IN)
+            except:
+                self.logger.error("could not set the GPIOs. \n")
+                self.alreadyLoggedGPIOError = True
+        else:
+            self.logger.info("Would have setup the GPIO-Ports now.")
 
         fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
         #fullname = CONFIG.core_data + "/" + CONFIG.initial_image
@@ -134,15 +151,18 @@ class picbrick:
             # Leave this out and we will use all CPU we can.
             clock.tick(10)
 
-            try:
-                input_state_pic = GPIO.input(CONFIG.gpic)
-                input_state_vid = GPIO.input(CONFIG.gvid)
-                input_state_pir = GPIO.input(CONFIG.gpir)
-            except:
-                if (self.alreadyLoggedGPIOError==False):
-                    self.logger.error("could not watch GPIO-ports, we should bail out here")
-                    self.alreadyLoggedGPIOError = True
-                #raise Exception("could not watch GPIO-ports, we should bail out here")
+            if CONFIG.gpioEnabled:
+                try:
+                    input_state_pic = GPIO.input(CONFIG.gpic)
+                    input_state_vid = GPIO.input(CONFIG.gvid)
+                    input_state_pir = GPIO.input(CONFIG.gpir)
+                except:
+                    if (self.alreadyLoggedGPIOError==False):
+                        self.logger.error("could not watch GPIO-ports, we should bail out here")
+                        self.alreadyLoggedGPIOError = True
+                    raise Exception("could not watch GPIO-ports, we should bail out here")
+            else:
+                self.logger.info("Would have setup the GPIO-Ports now.")
 
             try:
                 if input_state_pic == False or input_state_vid == False or (input_state_pir == True and autoMode == True):
@@ -226,10 +246,13 @@ class picbrick:
                 self.logger.error("could not process input event. \n Error was: " + str(e) + " / " + str(t))
                 sys.exit(-1)
 
-        try:
-            GPIO.cleanup()
-        except:
-            self.logger.error("could not clean GPIO")
+        if CONFIG.gpioEnabled:
+            try:
+                GPIO.cleanup()
+            except:
+                self.logger.error("could not clean GPIO")
+        else:
+            self.logger.info("Would have cleaned the GPIO-Ports now.")
 
 if __name__ == '__main__':
     print "PIcBrick started ... "
