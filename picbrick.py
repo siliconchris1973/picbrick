@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 __author__ = 'chris'
+
 try:
     import RPi.GPIO as GPIO
 except ImportError, e:
@@ -209,6 +210,8 @@ class picbrick:
                             self.logger.info("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
 
                         fullname = os.path.join(CONFIG.imageDir, pic)
+
+                        ### change this to an event based solution ###
                         if CONFIG.camEnabled:
                             myTFT.display_image(myScreen, fullname)
                         else:
