@@ -18,9 +18,31 @@ gpioEnabled = False
 #
 # default input state for the GPIO connections'
 #
-input_state_pic = True
-input_state_vid = True
-input_state_pir = False
+input_con_ground_inactive = True
+input_con_ground_active = False
+input_con_vcc_inactive = False
+input_con_vcc_active = True
+
+# choose the GPIO connection for the buttons,
+# these can either be connected to ground (in which case a button press would cause current to be interrupted)
+# or a button could be connected to a vcc line (in which case a button press would cause current to flow)
+picture_button = "ground"
+video_button = "ground"
+
+
+if picture_button == "ground":
+    input_state_pic = input_con_ground_inactive
+else:
+    input_state_pic = input_con_vcc_inactive
+
+if video_button == "ground":
+    input_state_vid = input_con_ground_inactive
+else:
+    input_state_vid = input_con_vcc_inactive
+
+# the PIR sensor will always cause current to flow, in case a movement is detected
+input_state_pir = input_con_vcc_inactive
+
 
 
 #

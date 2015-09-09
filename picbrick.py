@@ -205,33 +205,33 @@ class picbrick:
 
                     if takePicture:
                         #myCamera.takePicture(pic, pictureWidth, pictureHeight)
+                        ### change this to an event based solution ###
                         if CONFIG.camEnabled:
                             myCamera.takePicture(pic)
                             self.logger.info("picture taken, waiting " + str(CONFIG.waitTimeAfterPicture) + " seconds...")
 
-                        fullname = os.path.join(CONFIG.imageDir, pic)
+                            fullname = os.path.join(CONFIG.imageDir, pic)
 
-                        ### change this to an event based solution ###
-                        if CONFIG.camEnabled:
+                            myTFT.display_image(myScreen, fullname)
+
+                            time.sleep(CONFIG.waitTimeAfterPicture)
+                            time.sleep(3)
+
+                            fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
                             myTFT.display_image(myScreen, fullname)
                         else:
                             self.logger.info('I would have taken a picture with name ' + str(pic) + ' now.')
 
-                        time.sleep(CONFIG.waitTimeAfterPicture)
-                        time.sleep(3)
-
-                        fullname = os.path.join(CONFIG.core_data, CONFIG.initial_image)
-                        myTFT.display_image(myScreen, fullname)
 
                     if takeVideo:
                         #myCamera.takeVideo(vid, videoWidth, videoHeight, videoDuration)
                         if CONFIG.camEnabled:
                             myCamera.takeVideo(vid)
                             self.logger.info(str(CONFIG.videoDuration) + " seconds of video taken, waiting " + str(CONFIG.waitTimeAfterVideo) + " seconds...")
+                            time.sleep(CONFIG.waitTimeAfterVideo)
                         else:
                             self.logger.info('I would have taken a video with name ' + str(vid) + ' now.')
 
-                        time.sleep(CONFIG.waitTimeAfterVideo)
 
                     if sendSms:
                         message = (txtmessage),(pic),(vid)
